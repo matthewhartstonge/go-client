@@ -1289,7 +1289,6 @@ func (b *FormResponse) SetStatus(status int) {
  * @author Daniel DeGroff
  */
 type FormStep struct {
-  Description                      string                             `json:"description,omitempty"`
   Fields                           []string                           `json:"fields,omitempty"`
 }
 
@@ -2578,6 +2577,13 @@ type RegistrationConfiguration struct {
   MiddleName                       Requirable                         `json:"middleName,omitempty"`
   MobilePhone                      Requirable                         `json:"mobilePhone,omitempty"`
   Type                             RegistrationType                   `json:"type,omitempty"`
+}
+
+/**
+ * @author Brett Guy
+ */
+type RegistrationEditRequest struct {
+  UserRegistration                 UserRegistration                   `json:"userRegistration,omitempty"`
 }
 
 /**
