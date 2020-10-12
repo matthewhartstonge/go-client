@@ -170,7 +170,7 @@ type ApplicationEmailConfiguration struct {
  * @author Daniel DeGroff
  */
 type ApplicationFormConfiguration struct {
-  RegistrationFormId               string                             `json:"registrationFormId,omitempty"`
+  AdminRegistrationFormId          string                             `json:"adminRegistrationFormId,omitempty"`
 }
 
 /**
