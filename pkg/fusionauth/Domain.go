@@ -140,6 +140,7 @@ type Application struct {
   CleanSpeakConfiguration          CleanSpeakConfiguration            `json:"cleanSpeakConfiguration,omitempty"`
   Data                             map[string]interface{}             `json:"data,omitempty"`
   EmailConfiguration               ApplicationEmailConfiguration      `json:"emailConfiguration,omitempty"`
+  FormConfiguration                ApplicationFormConfiguration       `json:"formConfiguration,omitempty"`
   Id                               string                             `json:"id,omitempty"`
   InsertInstant                    int64                              `json:"insertInstant,omitempty"`
   JwtConfiguration                 JWTConfiguration                   `json:"jwtConfiguration,omitempty"`
@@ -151,7 +152,6 @@ type Application struct {
   PasswordlessConfiguration        PasswordlessConfiguration          `json:"passwordlessConfiguration,omitempty"`
   RegistrationConfiguration        RegistrationConfiguration          `json:"registrationConfiguration,omitempty"`
   RegistrationDeletePolicy         ApplicationRegistrationDeletePolicy `json:"registrationDeletePolicy,omitempty"`
-  RegistrationEditFormId           string                             `json:"registrationEditFormId,omitempty"`
   Roles                            []ApplicationRole                  `json:"roles,omitempty"`
   Samlv2Configuration              SAMLv2Configuration                `json:"samlv2Configuration,omitempty"`
   TenantId                         string                             `json:"tenantId,omitempty"`
@@ -164,6 +164,13 @@ type ApplicationEmailConfiguration struct {
   ForgotPasswordEmailTemplateId    string                             `json:"forgotPasswordEmailTemplateId,omitempty"`
   PasswordlessEmailTemplateId      string                             `json:"passwordlessEmailTemplateId,omitempty"`
   SetPasswordEmailTemplateId       string                             `json:"setPasswordEmailTemplateId,omitempty"`
+}
+
+/**
+ * @author Daniel DeGroff
+ */
+type ApplicationFormConfiguration struct {
+  RegistrationFormId               string                             `json:"registrationFormId,omitempty"`
 }
 
 /**
@@ -1298,8 +1305,8 @@ type FormStep struct {
 type FormType string
 const (
   FormType_Registration                     FormType                           = "registration"
-  FormType_AdminRegistrationEdit            FormType                           = "adminRegistrationEdit"
-  FormType_AdminUserEdit                    FormType                           = "adminUserEdit"
+  FormType_AdminRegistration                FormType                           = "adminRegistration"
+  FormType_AdminUser                        FormType                           = "adminUser"
 )
 
 /**
@@ -2917,6 +2924,7 @@ type Tenant struct {
   ExternalIdentifierConfiguration  ExternalIdentifierConfiguration    `json:"externalIdentifierConfiguration,omitempty"`
   FailedAuthenticationConfiguration FailedAuthenticationConfiguration  `json:"failedAuthenticationConfiguration,omitempty"`
   FamilyConfiguration              FamilyConfiguration                `json:"familyConfiguration,omitempty"`
+  FormConfiguration                TenantFormConfiguration            `json:"formConfiguration,omitempty"`
   HttpSessionMaxInactiveInterval   int                                `json:"httpSessionMaxInactiveInterval,omitempty"`
   Id                               string                             `json:"id,omitempty"`
   InsertInstant                    int64                              `json:"insertInstant,omitempty"`
@@ -2931,13 +2939,19 @@ type Tenant struct {
   PasswordValidationRules          PasswordValidationRules            `json:"passwordValidationRules,omitempty"`
   ThemeId                          string                             `json:"themeId,omitempty"`
   UserDeletePolicy                 TenantUserDeletePolicy             `json:"userDeletePolicy,omitempty"`
-  UserEditFormId                   string                             `json:"userEditFormId,omitempty"`
 }
 
 /**
  * @author Brian Pontarelli
  */
 type Tenantable struct {
+}
+
+/**
+ * @author Daniel DeGroff
+ */
+type TenantFormConfiguration struct {
+  UserFormId                       string                             `json:"userFormId,omitempty"`
 }
 
 /**
