@@ -2951,7 +2951,7 @@ type Tenantable struct {
  * @author Daniel DeGroff
  */
 type TenantFormConfiguration struct {
-  UserFormId                       string                             `json:"userFormId,omitempty"`
+  AdminUserFormId                  string                             `json:"adminUserFormId,omitempty"`
 }
 
 /**
