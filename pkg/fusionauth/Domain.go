@@ -3784,6 +3784,7 @@ type Tenant struct {
 	State                             ObjectState                       `json:"state,omitempty"`
 	ThemeId                           string                            `json:"themeId,omitempty"`
 	UserDeletePolicy                  TenantUserDeletePolicy            `json:"userDeletePolicy,omitempty"`
+	UsernameConfiguration             TenantUsernameConfiguration       `json:"usernameConfiguration,omitempty"`
 }
 
 /**
@@ -3843,6 +3844,13 @@ func (b *TenantResponse) SetStatus(status int) {
  */
 type TenantUserDeletePolicy struct {
 	Unverified TimeBasedDeletePolicy `json:"unverified,omitempty"`
+}
+
+/**
+ * @author Daniel DeGroff
+ */
+type TenantUsernameConfiguration struct {
+	Unique UniqueUsernameConfiguration `json:"unique,omitempty"`
 }
 
 /**
@@ -4121,6 +4129,19 @@ type UIConfiguration struct {
 	HeaderColor   string `json:"headerColor,omitempty"`
 	LogoURL       string `json:"logoURL,omitempty"`
 	MenuFontColor string `json:"menuFontColor,omitempty"`
+}
+
+type UniqueUsernameAppendPolicy string
+
+const (
+	UniqueUsernameAppendPolicy_Always      UniqueUsernameAppendPolicy = "Always"
+	UniqueUsernameAppendPolicy_OnDuplicate UniqueUsernameAppendPolicy = "OnDuplicate"
+)
+
+type UniqueUsernameConfiguration struct {
+	Enableable
+	AppendPolicy   UniqueUsernameAppendPolicy `json:"appendPolicy,omitempty"`
+	NumberOfDigits int                        `json:"numberOfDigits,omitempty"`
 }
 
 /**
