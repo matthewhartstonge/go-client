@@ -212,6 +212,7 @@ type Application struct {
 	Samlv2Configuration              SAMLv2Configuration                 `json:"samlv2Configuration,omitempty"`
 	State                            ObjectState                         `json:"state,omitempty"`
 	TenantId                         string                              `json:"tenantId,omitempty"`
+	ThemeId                          string                              `json:"themeId,omitempty"`
 	VerificationEmailTemplateId      string                              `json:"verificationEmailTemplateId,omitempty"`
 	VerifyRegistration               bool                                `json:"verifyRegistration"`
 }
