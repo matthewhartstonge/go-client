@@ -4131,17 +4131,9 @@ type UIConfiguration struct {
 	MenuFontColor string `json:"menuFontColor,omitempty"`
 }
 
-type UniqueUsernameAppendPolicy string
-
-const (
-	UniqueUsernameAppendPolicy_Always      UniqueUsernameAppendPolicy = "Always"
-	UniqueUsernameAppendPolicy_OnDuplicate UniqueUsernameAppendPolicy = "OnDuplicate"
-)
-
 type UniqueUsernameConfiguration struct {
 	Enableable
-	AppendPolicy   UniqueUsernameAppendPolicy `json:"appendPolicy,omitempty"`
-	NumberOfDigits int                        `json:"numberOfDigits,omitempty"`
+	NumberOfDigits int `json:"numberOfDigits,omitempty"`
 }
 
 /**
