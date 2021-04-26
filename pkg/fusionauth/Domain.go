@@ -3728,6 +3728,7 @@ type Templates struct {
 	AccountTwoFactorIndex                     string `json:"accountTwoFactorIndex,omitempty"`
 	EmailComplete                             string `json:"emailComplete,omitempty"`
 	EmailSend                                 string `json:"emailSend,omitempty"`
+	EmailVerificationRequired                 string `json:"emailVerificationRequired,omitempty"`
 	EmailVerify                               string `json:"emailVerify,omitempty"`
 	Helpers                                   string `json:"helpers,omitempty"`
 	Index                                     string `json:"index,omitempty"`
@@ -3750,6 +3751,7 @@ type Templates struct {
 	PasswordSent                              string `json:"passwordSent,omitempty"`
 	RegistrationComplete                      string `json:"registrationComplete,omitempty"`
 	RegistrationSend                          string `json:"registrationSend,omitempty"`
+	RegistrationVerificationRequired          string `json:"registrationVerificationRequired,omitempty"`
 	RegistrationVerify                        string `json:"registrationVerify,omitempty"`
 	Samlv2Logout                              string `json:"samlv2Logout,omitempty"`
 }
