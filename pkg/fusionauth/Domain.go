@@ -4135,7 +4135,8 @@ type UIConfiguration struct {
 
 type UniqueUsernameConfiguration struct {
 	Enableable
-	NumberOfDigits int `json:"numberOfDigits,omitempty"`
+	NumberOfDigits int  `json:"numberOfDigits,omitempty"`
+	Separator      char `json:"separator,omitempty"`
 }
 
 /**
