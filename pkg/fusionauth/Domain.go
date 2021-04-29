@@ -3221,6 +3221,7 @@ type ReactorStatus struct {
 	AdvancedIdentityProviders         ReactorFeatureStatus `json:"advancedIdentityProviders,omitempty"`
 	AdvancedMultiFactorAuthentication ReactorFeatureStatus `json:"advancedMultiFactorAuthentication,omitempty"`
 	AdvancedRegistrationForms         ReactorFeatureStatus `json:"advancedRegistrationForms,omitempty"`
+	ApplicationThemes                 ReactorFeatureStatus `json:"applicationThemes,omitempty"`
 	BreachedPasswordDetection         ReactorFeatureStatus `json:"breachedPasswordDetection,omitempty"`
 	Connectors                        ReactorFeatureStatus `json:"connectors,omitempty"`
 	EntityManagement                  ReactorFeatureStatus `json:"entityManagement,omitempty"`
