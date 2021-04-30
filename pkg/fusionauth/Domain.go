@@ -1396,6 +1396,7 @@ type ExternalIdentifierConfiguration struct {
 	DeviceUserCodeIdGenerator                     SecureGeneratorConfiguration `json:"deviceUserCodeIdGenerator,omitempty"`
 	EmailVerificationIdGenerator                  SecureGeneratorConfiguration `json:"emailVerificationIdGenerator,omitempty"`
 	EmailVerificationIdTimeToLiveInSeconds        int                          `json:"emailVerificationIdTimeToLiveInSeconds,omitempty"`
+	EmailVerificationOneTimeCodeGenerator         SecureGeneratorConfiguration `json:"emailVerificationOneTimeCodeGenerator,omitempty"`
 	ExternalAuthenticationIdTimeToLiveInSeconds   int                          `json:"externalAuthenticationIdTimeToLiveInSeconds,omitempty"`
 	OneTimePasswordTimeToLiveInSeconds            int                          `json:"oneTimePasswordTimeToLiveInSeconds,omitempty"`
 	PasswordlessLoginGenerator                    SecureGeneratorConfiguration `json:"passwordlessLoginGenerator,omitempty"`
@@ -2587,6 +2588,7 @@ type LoginResponse struct {
 	TwoFactorId          string                   `json:"twoFactorId,omitempty"`
 	TwoFactorTrustId     string                   `json:"twoFactorTrustId,omitempty"`
 	User                 User                     `json:"user,omitempty"`
+	VerificationId       string                   `json:"verificationId,omitempty"`
 }
 
 func (b *LoginResponse) SetStatus(status int) {
@@ -4715,8 +4717,17 @@ func (b *ValidateResponse) SetStatus(status int) {
 /**
  * @author Daniel DeGroff
  */
+type VerifyEmailRequest struct {
+	OneTimeCode    string `json:"oneTimeCode,omitempty"`
+	VerificationId string `json:"verificationId,omitempty"`
+}
+
+/**
+ * @author Daniel DeGroff
+ */
 type VerifyEmailResponse struct {
 	BaseHTTPResponse
+	OneTimeCode    string `json:"oneTimeCode,omitempty"`
 	VerificationId string `json:"verificationId,omitempty"`
 }
 

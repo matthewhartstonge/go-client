@@ -5227,6 +5227,8 @@ func (c *FusionAuthClient) ValidateJWT(encodedJWT string) (*ValidateResponse, er
 // VerifyEmail
 // Confirms a email verification. The Id given is usually from an email sent to the user.
 //   string verificationId The email verification id sent to the user.
+//
+// Deprecated: This method has been renamed to VerifyEmailAddress and changed to take a JSON request body, use that method instead.
 func (c *FusionAuthClient) VerifyEmail(verificationId string) (*BaseHTTPResponse, *Errors, error) {
 	var resp BaseHTTPResponse
 	var errors Errors
@@ -5234,6 +5236,29 @@ func (c *FusionAuthClient) VerifyEmail(verificationId string) (*BaseHTTPResponse
 	restClient := c.StartAnonymous(&resp, &errors)
 	err := restClient.WithUri("/api/user/verify-email").
 		WithUriSegment(verificationId).
+		WithMethod(http.MethodPost).
+		Do()
+	if restClient.ErrorRef == nil {
+		return &resp, nil, err
+	}
+	return &resp, &errors, err
+}
+
+// VerifyEmailAddress
+// Confirms a user's email address.
+//
+// The request body will contain the verificationId. You may also be required to send a one-time use code based upon your configuration. When
+// the tenant is configured to gate a user until their email address is verified, this procedures requires two values instead of one.
+// The verificationId is a high entropy value and the one-time use code is a low entropy value that is easily entered in a user interactive form. The
+// two values together are able to confirm a user's email address and mark the user's email address as verified.
+//   VerifyEmailRequest request The request that contains the verificationId and optional one-time use code paired with the verificationId.
+func (c *FusionAuthClient) VerifyEmailAddress(request VerifyEmailRequest) (*BaseHTTPResponse, *Errors, error) {
+	var resp BaseHTTPResponse
+	var errors Errors
+
+	restClient := c.StartAnonymous(&resp, &errors)
+	err := restClient.WithUri("/api/user/verify-email").
+		WithJSONBody(request).
 		WithMethod(http.MethodPost).
 		Do()
 	if restClient.ErrorRef == nil {
