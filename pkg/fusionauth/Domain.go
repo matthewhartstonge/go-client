@@ -2462,9 +2462,10 @@ type LogHistory struct {
 }
 
 type LoginConfiguration struct {
-	AllowTokenRefresh     bool `json:"allowTokenRefresh"`
-	GenerateRefreshTokens bool `json:"generateRefreshTokens"`
-	RequireAuthentication bool `json:"requireAuthentication"`
+	AllowTokenRefresh       bool               `json:"allowTokenRefresh"`
+	GenerateRefreshTokens   bool               `json:"generateRefreshTokens"`
+	RequireAuthentication   bool               `json:"requireAuthentication"`
+	UnverifiedEmailBehavior UnverifiedBehavior `json:"unverifiedEmailBehavior,omitempty"`
 }
 
 type LoginIdType string
@@ -3604,6 +3605,7 @@ type SecureIdentity struct {
 	PasswordChangeRequired             bool                   `json:"passwordChangeRequired"`
 	PasswordLastUpdateInstant          int64                  `json:"passwordLastUpdateInstant,omitempty"`
 	Salt                               string                 `json:"salt,omitempty"`
+	UniqueUsername                     string                 `json:"uniqueUsername,omitempty"`
 	Username                           string                 `json:"username,omitempty"`
 	UsernameStatus                     ContentStatus          `json:"usernameStatus,omitempty"`
 	Verified                           bool                   `json:"verified"`
@@ -3809,7 +3811,8 @@ type TenantFormConfiguration struct {
  * @author Daniel DeGroff
  */
 type TenantLoginConfiguration struct {
-	RequireAuthentication bool `json:"requireAuthentication"`
+	RequireAuthentication   bool               `json:"requireAuthentication"`
+	UnverifiedEmailBehavior UnverifiedBehavior `json:"unverifiedEmailBehavior,omitempty"`
 }
 
 /**
@@ -4141,6 +4144,16 @@ type UniqueUsernameConfiguration struct {
 	NumberOfDigits int  `json:"numberOfDigits,omitempty"`
 	Separator      char `json:"separator,omitempty"`
 }
+
+/**
+ * @author Daniel DeGroff
+ */
+type UnverifiedBehavior string
+
+const (
+	UnverifiedBehavior_Allow UnverifiedBehavior = "Allow"
+	UnverifiedBehavior_Gated UnverifiedBehavior = "Gated"
+)
 
 /**
  * The global view of a User. This object contains all global information about the user including birth date, registration information
