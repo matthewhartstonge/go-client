@@ -4681,6 +4681,7 @@ type UserState string
 const (
 	UserState_Authenticated              UserState = "Authenticated"
 	UserState_AuthenticatedNotRegistered UserState = "AuthenticatedNotRegistered"
+	UserState_AuthenticatedNotVerified   UserState = "AuthenticatedNotVerified"
 )
 
 /**
