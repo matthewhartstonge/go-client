@@ -4068,6 +4068,22 @@ func (c *FusionAuthClient) RetrieveUserUsingJWT(encodedJWT string) (*UserRespons
 	return &resp, &errors, err
 }
 
+// RetrieveVersion
+// Retrieves the FusionAuth version string.
+func (c *FusionAuthClient) RetrieveVersion() (*VersionResponse, *Errors, error) {
+	var resp VersionResponse
+	var errors Errors
+
+	restClient := c.Start(&resp, &errors)
+	err := restClient.WithUri("/api/system/version").
+		WithMethod(http.MethodGet).
+		Do()
+	if restClient.ErrorRef == nil {
+		return &resp, nil, err
+	}
+	return &resp, &errors, err
+}
+
 // RetrieveWebhook
 // Retrieves the webhook for the given Id. If you pass in null for the id, this will return all the webhooks.
 //   string webhookId (Optional) The Id of the webhook.
