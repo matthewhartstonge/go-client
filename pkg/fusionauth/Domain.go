@@ -292,6 +292,14 @@ type ApplicationRole struct {
 }
 
 /**
+ * @author Daniel DeGroff
+ */
+type ApplicationUnverifiedConfiguration struct {
+	Registration UnverifiedBehavior     `json:"registration,omitempty"`
+	WhenGated    UnverifiedGatedOptions `json:"whenGated,omitempty"`
+}
+
+/**
  * This class is a simple attachment with a byte array, name and MIME type.
  *
  * @author Brian Pontarelli
@@ -2463,10 +2471,10 @@ type LogHistory struct {
 }
 
 type LoginConfiguration struct {
-	AllowTokenRefresh       bool               `json:"allowTokenRefresh"`
-	GenerateRefreshTokens   bool               `json:"generateRefreshTokens"`
-	RequireAuthentication   bool               `json:"requireAuthentication"`
-	UnverifiedEmailBehavior UnverifiedBehavior `json:"unverifiedEmailBehavior,omitempty"`
+	AllowTokenRefresh     bool                               `json:"allowTokenRefresh"`
+	GenerateRefreshTokens bool                               `json:"generateRefreshTokens"`
+	RequireAuthentication bool                               `json:"requireAuthentication"`
+	Unverified            ApplicationUnverifiedConfiguration `json:"unverified,omitempty"`
 }
 
 type LoginIdType string
@@ -3813,8 +3821,8 @@ type TenantFormConfiguration struct {
  * @author Daniel DeGroff
  */
 type TenantLoginConfiguration struct {
-	RequireAuthentication   bool               `json:"requireAuthentication"`
-	UnverifiedEmailBehavior UnverifiedBehavior `json:"unverifiedEmailBehavior,omitempty"`
+	RequireAuthentication bool                          `json:"requireAuthentication"`
+	Unverified            TenantUnverifiedConfiguration `json:"unverified,omitempty"`
 }
 
 /**
@@ -3845,6 +3853,14 @@ type TenantResponse struct {
 
 func (b *TenantResponse) SetStatus(status int) {
 	b.StatusCode = status
+}
+
+/**
+ * @author Daniel DeGroff
+ */
+type TenantUnverifiedConfiguration struct {
+	Email     UnverifiedBehavior     `json:"email,omitempty"`
+	WhenGated UnverifiedGatedOptions `json:"whenGated,omitempty"`
 }
 
 /**
@@ -4156,6 +4172,15 @@ const (
 	UnverifiedBehavior_Allow UnverifiedBehavior = "Allow"
 	UnverifiedBehavior_Gated UnverifiedBehavior = "Gated"
 )
+
+/**
+ * @author Daniel DeGroff
+ */
+type UnverifiedGatedOptions struct {
+	Enableable
+	AllowEmailChange     bool                 `json:"allowEmailChange"`
+	VerificationStrategy VerificationStrategy `json:"verificationStrategy,omitempty"`
+}
 
 /**
  * The global view of a User. This object contains all global information about the user including birth date, registration information
@@ -4718,6 +4743,16 @@ func (b *ValidateResponse) SetStatus(status int) {
 /**
  * @author Daniel DeGroff
  */
+type VerificationStrategy string
+
+const (
+	VerificationStrategy_ClickableLink VerificationStrategy = "ClickableLink"
+	VerificationStrategy_FormField     VerificationStrategy = "FormField"
+)
+
+/**
+ * @author Daniel DeGroff
+ */
 type VerifyEmailRequest struct {
 	OneTimeCode    string `json:"oneTimeCode,omitempty"`
 	VerificationId string `json:"verificationId,omitempty"`
@@ -4745,6 +4780,18 @@ type VerifyRegistrationResponse struct {
 }
 
 func (b *VerifyRegistrationResponse) SetStatus(status int) {
+	b.StatusCode = status
+}
+
+/**
+ * @author Daniel DeGroff
+ */
+type VersionResponse struct {
+	BaseHTTPResponse
+	Version string `json:"version,omitempty"`
+}
+
+func (b *VersionResponse) SetStatus(status int) {
 	b.StatusCode = status
 }
 
