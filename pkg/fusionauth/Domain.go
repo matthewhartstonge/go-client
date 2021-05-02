@@ -4681,8 +4681,9 @@ type UserRequest struct {
  */
 type UserResponse struct {
 	BaseHTTPResponse
-	Token string `json:"token,omitempty"`
-	User  User   `json:"user,omitempty"`
+	Token          string `json:"token,omitempty"`
+	User           User   `json:"user,omitempty"`
+	VerificationId string `json:"verificationId,omitempty"`
 }
 
 func (b *UserResponse) SetStatus(status int) {
