@@ -1424,6 +1424,7 @@ type ExternalIdentifierConfiguration struct {
 	PasswordlessLoginTimeToLiveInSeconds          int                          `json:"passwordlessLoginTimeToLiveInSeconds,omitempty"`
 	RegistrationVerificationIdGenerator           SecureGeneratorConfiguration `json:"registrationVerificationIdGenerator,omitempty"`
 	RegistrationVerificationIdTimeToLiveInSeconds int                          `json:"registrationVerificationIdTimeToLiveInSeconds,omitempty"`
+	RegistrationVerificationOneTimeCodeGenerator  SecureGeneratorConfiguration `json:"registrationVerificationOneTimeCodeGenerator,omitempty"`
 	Samlv2AuthNRequestIdTimeToLiveInSeconds       int                          `json:"samlv2AuthNRequestIdTimeToLiveInSeconds,omitempty"`
 	SetupPasswordIdGenerator                      SecureGeneratorConfiguration `json:"setupPasswordIdGenerator,omitempty"`
 	SetupPasswordIdTimeToLiveInSeconds            int                          `json:"setupPasswordIdTimeToLiveInSeconds,omitempty"`
