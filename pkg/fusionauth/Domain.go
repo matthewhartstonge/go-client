@@ -4784,6 +4784,14 @@ func (b *VerifyEmailResponse) SetStatus(status int) {
 /**
  * @author Daniel DeGroff
  */
+type VerifyRegistrationRequest struct {
+	OneTimeCode    string `json:"oneTimeCode,omitempty"`
+	VerificationId string `json:"verificationId,omitempty"`
+}
+
+/**
+ * @author Daniel DeGroff
+ */
 type VerifyRegistrationResponse struct {
 	BaseHTTPResponse
 	VerificationId string `json:"verificationId,omitempty"`

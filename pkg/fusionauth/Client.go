@@ -5286,6 +5286,8 @@ func (c *FusionAuthClient) VerifyEmailAddress(request VerifyEmailRequest) (*Base
 // VerifyRegistration
 // Confirms an application registration. The Id given is usually from an email sent to the user.
 //   string verificationId The registration verification Id sent to the user.
+//
+// Deprecated: This method has been renamed to VerifyUserRegistration and changed to take a JSON request body, use that method instead.
 func (c *FusionAuthClient) VerifyRegistration(verificationId string) (*BaseHTTPResponse, *Errors, error) {
 	var resp BaseHTTPResponse
 	var errors Errors
@@ -5293,6 +5295,29 @@ func (c *FusionAuthClient) VerifyRegistration(verificationId string) (*BaseHTTPR
 	restClient := c.StartAnonymous(&resp, &errors)
 	err := restClient.WithUri("/api/user/verify-registration").
 		WithUriSegment(verificationId).
+		WithMethod(http.MethodPost).
+		Do()
+	if restClient.ErrorRef == nil {
+		return &resp, nil, err
+	}
+	return &resp, &errors, err
+}
+
+// VerifyUserRegistration
+// Confirms a user's registration.
+//
+// The request body will contain the verificationId. You may also be required to send a one-time use code based upon your configuration. When
+// the application is configured to gate a user until their registration is verified, this procedures requires two values instead of one.
+// The verificationId is a high entropy value and the one-time use code is a low entropy value that is easily entered in a user interactive form. The
+// two values together are able to confirm a user's registration and mark the user's registration as verified.
+//   VerifyRegistrationRequest request The request that contains the verificationId and optional one-time use code paired with the verificationId.
+func (c *FusionAuthClient) VerifyUserRegistration(request VerifyRegistrationRequest) (*BaseHTTPResponse, *Errors, error) {
+	var resp BaseHTTPResponse
+	var errors Errors
+
+	restClient := c.StartAnonymous(&resp, &errors)
+	err := restClient.WithUri("/api/user/verify-registration").
+		WithJSONBody(request).
 		WithMethod(http.MethodPost).
 		Do()
 	if restClient.ErrorRef == nil {
