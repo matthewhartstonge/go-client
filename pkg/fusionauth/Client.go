@@ -1944,8 +1944,8 @@ func (c *FusionAuthClient) Login(request LoginRequest) (*LoginResponse, *Errors,
 //   string applicationId The Id of the application that they logged into.
 //   string callerIPAddress (Optional) The IP address of the end-user that is logging in. If a null value is provided
 //   the IP address will be that of the client or last proxy that sent the request.
-func (c *FusionAuthClient) LoginPing(userId string, applicationId string, callerIPAddress string) (*BaseHTTPResponse, *Errors, error) {
-	var resp BaseHTTPResponse
+func (c *FusionAuthClient) LoginPing(userId string, applicationId string, callerIPAddress string) (*LoginResponse, *Errors, error) {
+	var resp LoginResponse
 	var errors Errors
 
 	restClient := c.Start(&resp, &errors)

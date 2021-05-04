@@ -2598,17 +2598,18 @@ type LoginRequest struct {
  */
 type LoginResponse struct {
 	BaseHTTPResponse
-	Actions              []LoginPreventedResponse `json:"actions,omitempty"`
-	ChangePasswordId     string                   `json:"changePasswordId,omitempty"`
-	ChangePasswordReason ChangePasswordReason     `json:"changePasswordReason,omitempty"`
-	Methods              []TwoFactorMethod        `json:"methods,omitempty"`
-	RefreshToken         string                   `json:"refreshToken,omitempty"`
-	State                map[string]interface{}   `json:"state,omitempty"`
-	Token                string                   `json:"token,omitempty"`
-	TwoFactorId          string                   `json:"twoFactorId,omitempty"`
-	TwoFactorTrustId     string                   `json:"twoFactorTrustId,omitempty"`
-	User                 User                     `json:"user,omitempty"`
-	VerificationId       string                   `json:"verificationId,omitempty"`
+	Actions                    []LoginPreventedResponse `json:"actions,omitempty"`
+	ChangePasswordId           string                   `json:"changePasswordId,omitempty"`
+	ChangePasswordReason       ChangePasswordReason     `json:"changePasswordReason,omitempty"`
+	EmailVerificationId        string                   `json:"emailVerificationId,omitempty"`
+	Methods                    []TwoFactorMethod        `json:"methods,omitempty"`
+	RefreshToken               string                   `json:"refreshToken,omitempty"`
+	RegistrationVerificationId string                   `json:"registrationVerificationId,omitempty"`
+	State                      map[string]interface{}   `json:"state,omitempty"`
+	Token                      string                   `json:"token,omitempty"`
+	TwoFactorId                string                   `json:"twoFactorId,omitempty"`
+	TwoFactorTrustId           string                   `json:"twoFactorTrustId,omitempty"`
+	User                       User                     `json:"user,omitempty"`
 }
 
 func (b *LoginResponse) SetStatus(status int) {
@@ -3403,10 +3404,11 @@ type RegistrationRequest struct {
  */
 type RegistrationResponse struct {
 	BaseHTTPResponse
-	RefreshToken string           `json:"refreshToken,omitempty"`
-	Registration UserRegistration `json:"registration,omitempty"`
-	Token        string           `json:"token,omitempty"`
-	User         User             `json:"user,omitempty"`
+	RefreshToken               string           `json:"refreshToken,omitempty"`
+	Registration               UserRegistration `json:"registration,omitempty"`
+	RegistrationVerificationId string           `json:"registrationVerificationId,omitempty"`
+	Token                      string           `json:"token,omitempty"`
+	User                       User             `json:"user,omitempty"`
 }
 
 func (b *RegistrationResponse) SetStatus(status int) {
@@ -4690,9 +4692,10 @@ type UserRequest struct {
  */
 type UserResponse struct {
 	BaseHTTPResponse
-	Token          string `json:"token,omitempty"`
-	User           User   `json:"user,omitempty"`
-	VerificationId string `json:"verificationId,omitempty"`
+	EmailVerificationId         string            `json:"emailVerificationId,omitempty"`
+	RegistrationVerificationIds map[string]string `json:"registrationVerificationIds,omitempty"`
+	Token                       string            `json:"token,omitempty"`
+	User                        User              `json:"user,omitempty"`
 }
 
 func (b *UserResponse) SetStatus(status int) {
@@ -4714,9 +4717,10 @@ type UserSearchCriteria struct {
 type UserState string
 
 const (
-	UserState_Authenticated              UserState = "Authenticated"
-	UserState_AuthenticatedNotRegistered UserState = "AuthenticatedNotRegistered"
-	UserState_AuthenticatedNotVerified   UserState = "AuthenticatedNotVerified"
+	UserState_Authenticated                        UserState = "Authenticated"
+	UserState_AuthenticatedNotRegistered           UserState = "AuthenticatedNotRegistered"
+	UserState_AuthenticatedNotVerified             UserState = "AuthenticatedNotVerified"
+	UserState_AuthenticatedRegistrationNotVerified UserState = "AuthenticatedRegistrationNotVerified"
 )
 
 /**
@@ -4794,6 +4798,7 @@ type VerifyRegistrationRequest struct {
  */
 type VerifyRegistrationResponse struct {
 	BaseHTTPResponse
+	OneTimeCode    string `json:"oneTimeCode,omitempty"`
 	VerificationId string `json:"verificationId,omitempty"`
 }
 
