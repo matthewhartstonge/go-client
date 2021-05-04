@@ -213,7 +213,9 @@ type Application struct {
 	State                            ObjectState                         `json:"state,omitempty"`
 	TenantId                         string                              `json:"tenantId,omitempty"`
 	ThemeId                          string                              `json:"themeId,omitempty"`
+	Unverified                       RegistrationUnverifiedOptions       `json:"unverified,omitempty"`
 	VerificationEmailTemplateId      string                              `json:"verificationEmailTemplateId,omitempty"`
+	VerificationStrategy             VerificationStrategy                `json:"verificationStrategy,omitempty"`
 	VerifyRegistration               bool                                `json:"verifyRegistration"`
 }
 
@@ -295,8 +297,9 @@ type ApplicationRole struct {
  * @author Daniel DeGroff
  */
 type ApplicationUnverifiedConfiguration struct {
-	Registration UnverifiedBehavior     `json:"registration,omitempty"`
-	WhenGated    UnverifiedGatedOptions `json:"whenGated,omitempty"`
+	Registration         UnverifiedBehavior            `json:"registration,omitempty"`
+	VerificationStrategy VerificationStrategy          `json:"verificationStrategy,omitempty"`
+	WhenGated            RegistrationUnverifiedOptions `json:"whenGated,omitempty"`
 }
 
 /**
@@ -873,20 +876,22 @@ type EmailAddress struct {
  * @author Brian Pontarelli
  */
 type EmailConfiguration struct {
-	DefaultFromEmail              string            `json:"defaultFromEmail,omitempty"`
-	DefaultFromName               string            `json:"defaultFromName,omitempty"`
-	ForgotPasswordEmailTemplateId string            `json:"forgotPasswordEmailTemplateId,omitempty"`
-	Host                          string            `json:"host,omitempty"`
-	Password                      string            `json:"password,omitempty"`
-	PasswordlessEmailTemplateId   string            `json:"passwordlessEmailTemplateId,omitempty"`
-	Port                          int               `json:"port,omitempty"`
-	Properties                    string            `json:"properties,omitempty"`
-	Security                      EmailSecurityType `json:"security,omitempty"`
-	SetPasswordEmailTemplateId    string            `json:"setPasswordEmailTemplateId,omitempty"`
-	Username                      string            `json:"username,omitempty"`
-	VerificationEmailTemplateId   string            `json:"verificationEmailTemplateId,omitempty"`
-	VerifyEmail                   bool              `json:"verifyEmail"`
-	VerifyEmailWhenChanged        bool              `json:"verifyEmailWhenChanged"`
+	DefaultFromEmail              string                 `json:"defaultFromEmail,omitempty"`
+	DefaultFromName               string                 `json:"defaultFromName,omitempty"`
+	ForgotPasswordEmailTemplateId string                 `json:"forgotPasswordEmailTemplateId,omitempty"`
+	Host                          string                 `json:"host,omitempty"`
+	Password                      string                 `json:"password,omitempty"`
+	PasswordlessEmailTemplateId   string                 `json:"passwordlessEmailTemplateId,omitempty"`
+	Port                          int                    `json:"port,omitempty"`
+	Properties                    string                 `json:"properties,omitempty"`
+	Security                      EmailSecurityType      `json:"security,omitempty"`
+	SetPasswordEmailTemplateId    string                 `json:"setPasswordEmailTemplateId,omitempty"`
+	Unverified                    EmailUnverifiedOptions `json:"unverified,omitempty"`
+	Username                      string                 `json:"username,omitempty"`
+	VerificationEmailTemplateId   string                 `json:"verificationEmailTemplateId,omitempty"`
+	VerificationStrategy          VerificationStrategy   `json:"verificationStrategy,omitempty"`
+	VerifyEmail                   bool                   `json:"verifyEmail"`
+	VerifyEmailWhenChanged        bool                   `json:"verifyEmailWhenChanged"`
 }
 
 type EmailPlus struct {
@@ -952,6 +957,14 @@ type EmailTemplateResponse struct {
 
 func (b *EmailTemplateResponse) SetStatus(status int) {
 	b.StatusCode = status
+}
+
+/**
+ * @author Daniel DeGroff
+ */
+type EmailUnverifiedOptions struct {
+	AllowEmailChangeWhenGated bool               `json:"allowEmailChangeWhenGated"`
+	Behavior                  UnverifiedBehavior `json:"behavior,omitempty"`
 }
 
 /**
@@ -2471,10 +2484,9 @@ type LogHistory struct {
 }
 
 type LoginConfiguration struct {
-	AllowTokenRefresh     bool                               `json:"allowTokenRefresh"`
-	GenerateRefreshTokens bool                               `json:"generateRefreshTokens"`
-	RequireAuthentication bool                               `json:"requireAuthentication"`
-	Unverified            ApplicationUnverifiedConfiguration `json:"unverified,omitempty"`
+	AllowTokenRefresh     bool `json:"allowTokenRefresh"`
+	GenerateRefreshTokens bool `json:"generateRefreshTokens"`
+	RequireAuthentication bool `json:"requireAuthentication"`
 }
 
 type LoginIdType string
@@ -3231,7 +3243,7 @@ func (b *ReactorResponse) SetStatus(status int) {
 type ReactorStatus struct {
 	AdvancedIdentityProviders         ReactorFeatureStatus `json:"advancedIdentityProviders,omitempty"`
 	AdvancedMultiFactorAuthentication ReactorFeatureStatus `json:"advancedMultiFactorAuthentication,omitempty"`
-	AdvancedRegistrationForms         ReactorFeatureStatus `json:"advancedRegistrationForms,omitempty"`
+	AdvancedRegistration              ReactorFeatureStatus `json:"advancedRegistration,omitempty"`
 	ApplicationThemes                 ReactorFeatureStatus `json:"applicationThemes,omitempty"`
 	BreachedPasswordDetection         ReactorFeatureStatus `json:"breachedPasswordDetection,omitempty"`
 	Connectors                        ReactorFeatureStatus `json:"connectors,omitempty"`
@@ -3407,6 +3419,13 @@ const (
 	RegistrationType_Basic    RegistrationType = "basic"
 	RegistrationType_Advanced RegistrationType = "advanced"
 )
+
+/**
+ * @author Daniel DeGroff
+ */
+type RegistrationUnverifiedOptions struct {
+	Behavior UnverifiedBehavior `json:"behavior,omitempty"`
+}
 
 /**
  * @author Daniel DeGroff
@@ -3821,8 +3840,7 @@ type TenantFormConfiguration struct {
  * @author Daniel DeGroff
  */
 type TenantLoginConfiguration struct {
-	RequireAuthentication bool                          `json:"requireAuthentication"`
-	Unverified            TenantUnverifiedConfiguration `json:"unverified,omitempty"`
+	RequireAuthentication bool `json:"requireAuthentication"`
 }
 
 /**
@@ -3859,8 +3877,8 @@ func (b *TenantResponse) SetStatus(status int) {
  * @author Daniel DeGroff
  */
 type TenantUnverifiedConfiguration struct {
-	Email     UnverifiedBehavior     `json:"email,omitempty"`
-	WhenGated UnverifiedGatedOptions `json:"whenGated,omitempty"`
+	Email     UnverifiedBehavior            `json:"email,omitempty"`
+	WhenGated RegistrationUnverifiedOptions `json:"whenGated,omitempty"`
 }
 
 /**
@@ -4172,15 +4190,6 @@ const (
 	UnverifiedBehavior_Allow UnverifiedBehavior = "Allow"
 	UnverifiedBehavior_Gated UnverifiedBehavior = "Gated"
 )
-
-/**
- * @author Daniel DeGroff
- */
-type UnverifiedGatedOptions struct {
-	Enableable
-	AllowEmailChange     bool                 `json:"allowEmailChange"`
-	VerificationStrategy VerificationStrategy `json:"verificationStrategy,omitempty"`
-}
 
 /**
  * The global view of a User. This object contains all global information about the user including birth date, registration information
