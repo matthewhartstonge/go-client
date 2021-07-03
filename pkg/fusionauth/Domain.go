@@ -2230,6 +2230,8 @@ type IntervalUser struct {
 }
 
 /**
+ * TODO : ip-allow-block : Fix names so they are all the same. I prefer `IP`.
+ *
  * @author Brett Guy
  */
 type IpAddressRange struct {
@@ -3490,6 +3492,7 @@ const (
 	ReactorFeatureStatus_ACTIVE       ReactorFeatureStatus = "ACTIVE"
 	ReactorFeatureStatus_DISCONNECTED ReactorFeatureStatus = "DISCONNECTED"
 	ReactorFeatureStatus_PENDING      ReactorFeatureStatus = "PENDING"
+	ReactorFeatureStatus_DISABLED     ReactorFeatureStatus = "DISABLED"
 	ReactorFeatureStatus_UNKNOWN      ReactorFeatureStatus = "UNKNOWN"
 )
 
