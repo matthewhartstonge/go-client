@@ -95,16 +95,6 @@ func (b *ActionResponse) SetStatus(status int) {
 }
 
 /**
- * @author Brett Guy
- */
-type AddressRangeMode string
-
-const (
-	AddressRangeMode_ALLOW AddressRangeMode = "ALLOW"
-	AddressRangeMode_BLOCK AddressRangeMode = "BLOCK"
-)
-
-/**
  * Available JSON Web Algorithms (JWA) as described in RFC 7518 available for this JWT implementation.
  *
  * @author Daniel DeGroff
@@ -2230,17 +2220,54 @@ type IntervalUser struct {
 }
 
 /**
- * TODO : ip-allow-block : Fix names so they are all the same. I prefer `IP`.
- *
  * @author Brett Guy
  */
-type IpAddressRange struct {
-	EndIpAddress      string           `json:"endIpAddress,omitempty"`
-	Id                string           `json:"id,omitempty"`
-	InsertInstant     int64            `json:"insertInstant,omitempty"`
-	LastUpdateInstant int64            `json:"lastUpdateInstant,omitempty"`
-	Mode              AddressRangeMode `json:"mode,omitempty"`
-	StartIpAddress    string           `json:"startIpAddress,omitempty"`
+type IPAccessControlList struct {
+	Data              map[string]interface{}         `json:"data,omitempty"`
+	DefaultAction     IPAccessControlListMode        `json:"defaultAction,omitempty"`
+	Exceptions        []IPAccessControlListException `json:"exceptions,omitempty"`
+	Id                string                         `json:"id,omitempty"`
+	InsertInstant     int64                          `json:"insertInstant,omitempty"`
+	LastUpdateInstant int64                          `json:"lastUpdateInstant,omitempty"`
+	Name              string                         `json:"name,omitempty"`
+}
+
+/**
+ * @author Brett Guy
+ */
+type IPAccessControlListException struct {
+	EndIPAddress   string `json:"endIPAddress,omitempty"`
+	StartIPAddress string `json:"startIPAddress,omitempty"`
+}
+
+/**
+ * @author Brett Guy
+ */
+type IPAccessControlListMode string
+
+const (
+	IPAccessControlListMode_Allow IPAccessControlListMode = "Allow"
+	IPAccessControlListMode_Block IPAccessControlListMode = "Block"
+)
+
+/**
+ * @author Brett Guy
+ */
+type IPAccessControlListRequest struct {
+	IpAccessControlList IPAccessControlList `json:"ipAccessControlList,omitempty"`
+}
+
+/**
+ * @author Brett Guy
+ */
+type IPAccessControlListResponse struct {
+	BaseHTTPResponse
+	IpAccessControlList  IPAccessControlList   `json:"ipAccessControlList,omitempty"`
+	IpAccessControlLists []IPAccessControlList `json:"ipAccessControlLists,omitempty"`
+}
+
+func (b *IPAccessControlListResponse) SetStatus(status int) {
+	b.StatusCode = status
 }
 
 /**
@@ -2251,26 +2278,6 @@ type IPAddressRangeNode struct {
 	Left           IPAddressRangeNode `json:"left,omitempty"`
 	Right          IPAddressRangeNode `json:"right,omitempty"`
 	StartIpAddress int64              `json:"startIpAddress,omitempty"`
-}
-
-/**
- * @author Brett Guy
- */
-type IPAddressRangeRequest struct {
-	IpAddressRange IpAddressRange `json:"ipAddressRange,omitempty"`
-}
-
-/**
- * @author Brett Guy
- */
-type IPAddressRangeResponse struct {
-	BaseHTTPResponse
-	IpAddressRange  IpAddressRange   `json:"ipAddressRange,omitempty"`
-	IpAddressRanges []IpAddressRange `json:"ipAddressRanges,omitempty"`
-}
-
-func (b *IPAddressRangeResponse) SetStatus(status int) {
-	b.StatusCode = status
 }
 
 /**
