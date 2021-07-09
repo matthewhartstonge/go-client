@@ -395,6 +395,18 @@ func (b *AuditLogSearchResponse) SetStatus(status int) {
 	b.StatusCode = status
 }
 
+/**
+ * @author Brett Pontarelli
+ */
+type AuthenticationThreats string
+
+const (
+	AuthenticationThreats_ImpossibleTravel AuthenticationThreats = "ImpossibleTravel"
+	AuthenticationThreats_UnusualTravel    AuthenticationThreats = "UnusualTravel"
+	AuthenticationThreats_BadCaptcha       AuthenticationThreats = "BadCaptcha"
+	AuthenticationThreats_NewDeviceLogin   AuthenticationThreats = "NewDeviceLogin"
+)
+
 type AuthenticationTokenConfiguration struct {
 	Enableable
 }
@@ -2828,6 +2840,7 @@ type LoginResponse struct {
 	RefreshToken               string                   `json:"refreshToken,omitempty"`
 	RegistrationVerificationId string                   `json:"registrationVerificationId,omitempty"`
 	State                      map[string]interface{}   `json:"state,omitempty"`
+	ThreatsDetected            []AuthenticationThreats  `json:"threatsDetected,omitempty"`
 	Token                      string                   `json:"token,omitempty"`
 	TwoFactorId                string                   `json:"twoFactorId,omitempty"`
 	TwoFactorTrustId           string                   `json:"twoFactorTrustId,omitempty"`
@@ -3544,8 +3557,8 @@ type ReactorStatus struct {
 	BreachedPasswordDetection         ReactorFeatureStatus `json:"breachedPasswordDetection,omitempty"`
 	Connectors                        ReactorFeatureStatus `json:"connectors,omitempty"`
 	EntityManagement                  ReactorFeatureStatus `json:"entityManagement,omitempty"`
-	IpLocation                        ReactorFeatureStatus `json:"ipLocation,omitempty"`
 	Licensed                          bool                 `json:"licensed"`
+	ThreatDetection                   ReactorFeatureStatus `json:"threatDetection,omitempty"`
 }
 
 /**
