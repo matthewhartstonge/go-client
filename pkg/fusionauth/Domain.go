@@ -701,25 +701,6 @@ const (
 )
 
 /**
- * Models a consent.
- *
- * @author Daniel DeGroff
- */
-type Consent struct {
-	ConsentEmailTemplateId          string                 `json:"consentEmailTemplateId,omitempty"`
-	CountryMinimumAgeForSelfConsent map[string]int         `json:"countryMinimumAgeForSelfConsent,omitempty"`
-	Data                            map[string]interface{} `json:"data,omitempty"`
-	DefaultMinimumAgeForSelfConsent int                    `json:"defaultMinimumAgeForSelfConsent,omitempty"`
-	EmailPlus                       EmailPlus              `json:"emailPlus,omitempty"`
-	Id                              string                 `json:"id,omitempty"`
-	InsertInstant                   int64                  `json:"insertInstant,omitempty"`
-	LastUpdateInstant               int64                  `json:"lastUpdateInstant,omitempty"`
-	MultipleValuesAllowed           bool                   `json:"multipleValuesAllowed"`
-	Name                            string                 `json:"name,omitempty"`
-	Values                          []string               `json:"values,omitempty"`
-}
-
-/**
  * API request for User consent types.
  *
  * @author Daniel DeGroff
@@ -925,13 +906,6 @@ type EmailConfiguration struct {
 	VerificationStrategy          VerificationStrategy   `json:"verificationStrategy,omitempty"`
 	VerifyEmail                   bool                   `json:"verifyEmail"`
 	VerifyEmailWhenChanged        bool                   `json:"verifyEmailWhenChanged"`
-}
-
-type EmailPlus struct {
-	Enableable
-	EmailTemplateId               string `json:"emailTemplateId,omitempty"`
-	MaximumTimeToSendEmailInHours int    `json:"maximumTimeToSendEmailInHours,omitempty"`
-	MinimumTimeToSendEmailInHours int    `json:"minimumTimeToSendEmailInHours,omitempty"`
 }
 
 type EmailSecurityType string
