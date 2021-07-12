@@ -2044,6 +2044,7 @@ const (
  * @author Daniel DeGroff
  */
 type IdentityProviderLinkRequest struct {
+	DisplayName            string `json:"displayName,omitempty"`
 	IdentityProviderId     string `json:"identityProviderId,omitempty"`
 	IdentityProviderUserId string `json:"identityProviderUserId,omitempty"`
 	PendingIdPLinkId       string `json:"pendingIdPLinkId,omitempty"`
@@ -2080,10 +2081,10 @@ const (
  */
 type IdentityProviderLoginRequest struct {
 	BaseLoginRequest
-	Data                map[string]string `json:"data,omitempty"`
-	EncodedJWT          string            `json:"encodedJWT,omitempty"`
-	IdentityProviderId  string            `json:"identityProviderId,omitempty"`
-	LoginOnlyWhenLinked bool              `json:"loginOnlyWhenLinked"`
+	Data               map[string]string `json:"data,omitempty"`
+	EncodedJWT         string            `json:"encodedJWT,omitempty"`
+	IdentityProviderId string            `json:"identityProviderId,omitempty"`
+	NoLink             bool              `json:"noLink"`
 }
 
 /**
@@ -2251,9 +2252,7 @@ type IPAccessControlList struct {
 	Name              string                         `json:"name,omitempty"`
 }
 
-/**
- * @author Brett Guy
- */
+// I think we could omit "Exception" from the name. Really this is just an IP range I think.
 type IPAccessControlListException struct {
 	EndIPAddress   string `json:"endIPAddress,omitempty"`
 	StartIPAddress string `json:"startIPAddress,omitempty"`
@@ -3402,14 +3401,14 @@ func (b *PasswordValidationRulesResponse) SetStatus(status int) {
  * @author Daniel DeGroff
  */
 type PendingIdPLink struct {
-	DisplayName            string `json:"displayName,omitempty"`
-	Email                  string `json:"email,omitempty"`
-	IdentityProviderId     string `json:"identityProviderId,omitempty"`
-	IdentityProviderName   string `json:"identityProviderName,omitempty"`
-	IdentityProviderType   string `json:"identityProviderType,omitempty"`
-	IdentityProviderUserId string `json:"identityProviderUserId,omitempty"`
-	User                   User   `json:"user,omitempty"`
-	Username               string `json:"username,omitempty"`
+	DisplayName            string               `json:"displayName,omitempty"`
+	Email                  string               `json:"email,omitempty"`
+	IdentityProviderId     string               `json:"identityProviderId,omitempty"`
+	IdentityProviderName   string               `json:"identityProviderName,omitempty"`
+	IdentityProviderType   IdentityProviderType `json:"identityProviderType,omitempty"`
+	IdentityProviderUserId string               `json:"identityProviderUserId,omitempty"`
+	User                   User                 `json:"user,omitempty"`
+	Username               string               `json:"username,omitempty"`
 }
 
 /**
@@ -4575,9 +4574,17 @@ type UIConfiguration struct {
 
 type UniqueUsernameConfiguration struct {
 	Enableable
-	NumberOfDigits int    `json:"numberOfDigits,omitempty"`
-	Separator      string `json:"separator,omitempty"`
+	NumberOfDigits int                    `json:"numberOfDigits,omitempty"`
+	Separator      string                 `json:"separator,omitempty"`
+	Strategy       UniqueUsernameStrategy `json:"strategy,omitempty"`
 }
+
+type UniqueUsernameStrategy string
+
+const (
+	UniqueUsernameStrategy_Always      UniqueUsernameStrategy = "Always"
+	UniqueUsernameStrategy_OnCollision UniqueUsernameStrategy = "OnCollision"
+)
 
 /**
  * @author Daniel DeGroff
