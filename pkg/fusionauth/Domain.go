@@ -56,13 +56,6 @@ func (b *AccessToken) SetStatus(status int) {
 	b.StatusCode = status
 }
 
-/**
- * @author Brett Guy
- */
-type ACLConfiguration struct {
-	AclAction IPAccessControlListMode `json:"aclAction,omitempty"`
-}
-
 type ActionData struct {
 	ActioneeUserId string   `json:"actioneeUserId,omitempty"`
 	ActionerUserId string   `json:"actionerUserId,omitempty"`
@@ -2286,24 +2279,6 @@ type IPAccessControlListResponse struct {
 
 func (b *IPAccessControlListResponse) SetStatus(status int) {
 	b.StatusCode = status
-}
-
-/**
- * @author Brett Guy
- */
-type IPAddressRangeNode struct {
-	EndIPAddress   int64              `json:"endIPAddress,omitempty"`
-	Left           IPAddressRangeNode `json:"left,omitempty"`
-	Right          IPAddressRangeNode `json:"right,omitempty"`
-	StartIPAddress int64              `json:"startIPAddress,omitempty"`
-}
-
-/**
- * An implementation of an Interval Tree used to store IP address ranges.
- * <p>
- * https://en.wikipedia.org/wiki/Interval_tree
- */
-type IPAddressRangeTree struct {
 }
 
 /**
