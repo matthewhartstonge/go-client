@@ -449,9 +449,10 @@ type BaseElasticSearchCriteria struct {
  * @author Brian Pontarelli
  */
 type BaseEvent struct {
-	CreateInstant int64  `json:"createInstant,omitempty"`
-	Id            string `json:"id,omitempty"`
-	TenantId      string `json:"tenantId,omitempty"`
+	CreateInstant int64     `json:"createInstant,omitempty"`
+	EventInfo     EventInfo `json:"eventInfo,omitempty"`
+	Id            string    `json:"id,omitempty"`
+	TenantId      string    `json:"tenantId,omitempty"`
 }
 
 /**
@@ -490,10 +491,12 @@ type BaseIdentityProviderApplicationConfiguration struct {
  * @author Daniel DeGroff
  */
 type BaseLoginRequest struct {
-	ApplicationId string   `json:"applicationId,omitempty"`
-	IpAddress     string   `json:"ipAddress,omitempty"`
-	MetaData      MetaData `json:"metaData,omitempty"`
-	NoJWT         bool     `json:"noJWT"`
+	ApplicationId string    `json:"applicationId,omitempty"`
+	DeviceTrustId string    `json:"deviceTrustId,omitempty"`
+	EventInfo     EventInfo `json:"eventInfo,omitempty"`
+	IpAddress     string    `json:"ipAddress,omitempty"`
+	MetaData      MetaData  `json:"metaData,omitempty"`
+	NoJWT         bool      `json:"noJWT"`
 }
 
 // Do not require a setter for 'type', it is defined by the concrete class and is not mutable
@@ -1348,6 +1351,22 @@ type EventConfiguration struct {
 type EventConfigurationData struct {
 	Enableable
 	TransactionType TransactionType `json:"transactionType,omitempty"`
+}
+
+/**
+ * Information about a user event (login, register, etc) that helps identify the source of the event (location, device type, OS, etc).
+ *
+ * @author Brian Pontarelli
+ */
+type EventInfo struct {
+	DeviceDescription string   `json:"deviceDescription,omitempty"`
+	DeviceName        string   `json:"deviceName,omitempty"`
+	DeviceType        string   `json:"deviceType,omitempty"`
+	Instant           int64    `json:"instant,omitempty"`
+	IpAddress         string   `json:"ipAddress,omitempty"`
+	Location          Location `json:"location,omitempty"`
+	Os                string   `json:"os,omitempty"`
+	UserAgent         string   `json:"userAgent,omitempty"`
 }
 
 /**
@@ -4569,13 +4588,14 @@ func (b *TwoFactorRecoveryCodeResponse) SetStatus(status int) {
  * @author Brian Pontarelli
  */
 type TwoFactorRequest struct {
-	AuthenticatorId     string `json:"authenticatorId,omitempty"`
-	Code                string `json:"code,omitempty"`
-	Email               string `json:"email,omitempty"`
-	Method              string `json:"method,omitempty"`
-	MobilePhone         string `json:"mobilePhone,omitempty"`
-	Secret              string `json:"secret,omitempty"`
-	SecretBase32Encoded string `json:"secretBase32Encoded,omitempty"`
+	AuthenticatorId     string    `json:"authenticatorId,omitempty"`
+	Code                string    `json:"code,omitempty"`
+	Email               string    `json:"email,omitempty"`
+	EventInfo           EventInfo `json:"eventInfo,omitempty"`
+	Method              string    `json:"method,omitempty"`
+	MobilePhone         string    `json:"mobilePhone,omitempty"`
+	Secret              string    `json:"secret,omitempty"`
+	SecretBase32Encoded string    `json:"secretBase32Encoded,omitempty"`
 }
 
 /**
