@@ -3516,6 +3516,25 @@ func (b *PublicKeyResponse) SetStatus(status int) {
 }
 
 /**
+ * @author Daniel DeGroff
+ */
+type RateLimitedRequestConfiguration struct {
+	Enableable
+	Limit               int `json:"limit,omitempty"`
+	TimePeriodInSeconds int `json:"timePeriodInSeconds,omitempty"`
+}
+
+/**
+ * @author Daniel DeGroff
+ */
+type RateLimitedRequestType string
+
+const (
+	RateLimitedRequestType_FailedLogin    RateLimitedRequestType = "FailedLogin"
+	RateLimitedRequestType_ForgotPassword RateLimitedRequestType = "ForgotPassword"
+)
+
+/**
  * Raw login information for each time a user logs into an application.
  *
  * @author Brian Pontarelli
@@ -4221,6 +4240,7 @@ type Tenant struct {
 	OauthConfiguration                TenantOAuth2Configuration         `json:"oauthConfiguration,omitempty"`
 	PasswordEncryptionConfiguration   PasswordEncryptionConfiguration   `json:"passwordEncryptionConfiguration,omitempty"`
 	PasswordValidationRules           PasswordValidationRules           `json:"passwordValidationRules,omitempty"`
+	RateLimitingConfiguration         TenantRateLimitingConfiguration   `json:"rateLimitingConfiguration,omitempty"`
 	State                             ObjectState                       `json:"state,omitempty"`
 	ThemeId                           string                            `json:"themeId,omitempty"`
 	ThreatDetectionConfiguration      ThreatDetectionConfiguration      `json:"threatDetectionConfiguration,omitempty"`
@@ -4259,6 +4279,13 @@ type TenantMultiFactorConfiguration struct {
 
 type TenantOAuth2Configuration struct {
 	ClientCredentialsAccessTokenPopulateLambdaId string `json:"clientCredentialsAccessTokenPopulateLambdaId,omitempty"`
+}
+
+/**
+ * @author Daniel DeGroff
+ */
+type TenantRateLimitingConfiguration struct {
+	ForgotPassword RateLimitedRequestConfiguration `json:"forgotPassword,omitempty"`
 }
 
 /**
