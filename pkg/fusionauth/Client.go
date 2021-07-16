@@ -317,26 +317,6 @@ func (c *FusionAuthClient) CommentOnUser(request UserCommentRequest) (*BaseHTTPR
 	return &resp, &errors, err
 }
 
-// CreateACL
-// Creates an ACL. You can optionally specify an Id for the ACL. If not provided one will be generated.
-//   string accessControlListId (Optional) The Id for the ACL. If not provided a secure random UUID will be generated.
-//   IPAccessControlListRequest request The request object that contains all of the information used to create the IP ACL.
-func (c *FusionAuthClient) CreateACL(accessControlListId string, request IPAccessControlListRequest) (*IPAccessControlListResponse, *Errors, error) {
-	var resp IPAccessControlListResponse
-	var errors Errors
-
-	restClient := c.Start(&resp, &errors)
-	err := restClient.WithUri("/api/ip-acl").
-		WithUriSegment(accessControlListId).
-		WithJSONBody(request).
-		WithMethod(http.MethodPost).
-		Do()
-	if restClient.ErrorRef == nil {
-		return &resp, nil, err
-	}
-	return &resp, &errors, err
-}
-
 // CreateAPIKey
 // Creates an API key. You can optionally specify a unique Id for the key, if not provided one will be generated.
 // an API key can only be created with equal or lesser authority. An API key cannot create another API key unless it is granted
@@ -639,6 +619,26 @@ func (c *FusionAuthClient) CreateGroupMembers(request MemberRequest) (*MemberRes
 
 	restClient := c.Start(&resp, &errors)
 	err := restClient.WithUri("/api/group/member").
+		WithJSONBody(request).
+		WithMethod(http.MethodPost).
+		Do()
+	if restClient.ErrorRef == nil {
+		return &resp, nil, err
+	}
+	return &resp, &errors, err
+}
+
+// CreateIPAccessControlList
+// Creates an IP Access Control List. You can optionally specify an Id on this create request, if one is not provided one will be generated.
+//   string accessControlListId (Optional) The Id for the IP Access Control List. If not provided a secure random UUID will be generated.
+//   IPAccessControlListRequest request The request object that contains all of the information used to create the IP Access Control List.
+func (c *FusionAuthClient) CreateIPAccessControlList(accessControlListId string, request IPAccessControlListRequest) (*IPAccessControlListResponse, *Errors, error) {
+	var resp IPAccessControlListResponse
+	var errors Errors
+
+	restClient := c.Start(&resp, &errors)
+	err := restClient.WithUri("/api/ip-acl").
+		WithUriSegment(accessControlListId).
 		WithJSONBody(request).
 		WithMethod(http.MethodPost).
 		Do()
@@ -976,24 +976,6 @@ func (c *FusionAuthClient) DeactivateUsersByIds(userIds []string) (*UserDeleteRe
 	return &resp, &errors, err
 }
 
-// DeleteACL
-// Deletes the ACL for the given Id.
-//   string ipAccessControlListId The Id of the ACL to delete.
-func (c *FusionAuthClient) DeleteACL(ipAccessControlListId string) (*BaseHTTPResponse, *Errors, error) {
-	var resp BaseHTTPResponse
-	var errors Errors
-
-	restClient := c.Start(&resp, &errors)
-	err := restClient.WithUri("/api/ip-acl").
-		WithUriSegment(ipAccessControlListId).
-		WithMethod(http.MethodDelete).
-		Do()
-	if restClient.ErrorRef == nil {
-		return &resp, nil, err
-	}
-	return &resp, &errors, err
-}
-
 // DeleteAPIKey
 // Deletes the API key for the given Id.
 //   string keyId The Id of the authentication API key to delete.
@@ -1255,6 +1237,24 @@ func (c *FusionAuthClient) DeleteGroupMembers(request MemberDeleteRequest) (*Bas
 	restClient := c.Start(&resp, &errors)
 	err := restClient.WithUri("/api/group/member").
 		WithJSONBody(request).
+		WithMethod(http.MethodDelete).
+		Do()
+	if restClient.ErrorRef == nil {
+		return &resp, nil, err
+	}
+	return &resp, &errors, err
+}
+
+// DeleteIPAccessControlList
+// Deletes the IP Access Control List for the given Id.
+//   string ipAccessControlListId The Id of the IP Access Control List to delete.
+func (c *FusionAuthClient) DeleteIPAccessControlList(ipAccessControlListId string) (*BaseHTTPResponse, *Errors, error) {
+	var resp BaseHTTPResponse
+	var errors Errors
+
+	restClient := c.Start(&resp, &errors)
+	err := restClient.WithUri("/api/ip-acl").
+		WithUriSegment(ipAccessControlListId).
 		WithMethod(http.MethodDelete).
 		Do()
 	if restClient.ErrorRef == nil {
@@ -2772,32 +2772,6 @@ func (c *FusionAuthClient) ResendRegistrationVerification(email string, applicat
 	return &resp, &errors, err
 }
 
-// RetrieveACL
-// Retrieves the ACL with the given Id.
-//   string formId The Id of the ACL.
-func (c *FusionAuthClient) RetrieveACL(formId string) (*IPAccessControlListResponse, error) {
-	var resp IPAccessControlListResponse
-
-	err := c.Start(&resp, nil).
-		WithUri("/api/ip-acl").
-		WithUriSegment(formId).
-		WithMethod(http.MethodGet).
-		Do()
-	return &resp, err
-}
-
-// RetrieveACLs
-// Retrieves all ACLs.
-func (c *FusionAuthClient) RetrieveACLs() (*IPAccessControlListResponse, error) {
-	var resp IPAccessControlListResponse
-
-	err := c.Start(&resp, nil).
-		WithUri("/api/ip-acl").
-		WithMethod(http.MethodGet).
-		Do()
-	return &resp, err
-}
-
 // RetrieveAPIKey
 // Retrieves an authentication API key for the given id
 //   string keyId The Id of the API key to retrieve.
@@ -3255,6 +3229,20 @@ func (c *FusionAuthClient) RetrieveGroups() (*GroupResponse, error) {
 
 	err := c.Start(&resp, nil).
 		WithUri("/api/group").
+		WithMethod(http.MethodGet).
+		Do()
+	return &resp, err
+}
+
+// RetrieveIPAccessControlList
+// Retrieves the IP Access Control List with the given Id.
+//   string ipAccessControlListId The Id of the IP Access Control List.
+func (c *FusionAuthClient) RetrieveIPAccessControlList(ipAccessControlListId string) (*IPAccessControlListResponse, error) {
+	var resp IPAccessControlListResponse
+
+	err := c.Start(&resp, nil).
+		WithUri("/api/ip-acl").
+		WithUriSegment(ipAccessControlListId).
 		WithMethod(http.MethodGet).
 		Do()
 	return &resp, err
@@ -4444,20 +4432,6 @@ func (c *FusionAuthClient) RevokeUserConsent(userConsentId string) (*BaseHTTPRes
 	return &resp, err
 }
 
-// SearchACLs
-// Searches the ACLs with the specified criteria and pagination.
-//   IPAccessControlListSearchRequest request The search criteria and pagination information.
-func (c *FusionAuthClient) SearchACLs(request IPAccessControlListSearchRequest) (*IPAccessControlListSearchResponse, error) {
-	var resp IPAccessControlListSearchResponse
-
-	err := c.Start(&resp, nil).
-		WithUri("/api/ip-acl/search").
-		WithJSONBody(request).
-		WithMethod(http.MethodPost).
-		Do()
-	return &resp, err
-}
-
 // SearchAuditLogs
 // Searches the audit logs with the specified criteria and pagination.
 //   AuditLogSearchRequest request The search criteria and pagination information.
@@ -4548,6 +4522,20 @@ func (c *FusionAuthClient) SearchEventLogs(request EventLogSearchRequest) (*Even
 
 	err := c.Start(&resp, nil).
 		WithUri("/api/system/event-log/search").
+		WithJSONBody(request).
+		WithMethod(http.MethodPost).
+		Do()
+	return &resp, err
+}
+
+// SearchIPAccessControlLists
+// Searches the IP Access Control Lists with the specified criteria and pagination.
+//   IPAccessControlListSearchRequest request The search criteria and pagination information.
+func (c *FusionAuthClient) SearchIPAccessControlLists(request IPAccessControlListSearchRequest) (*IPAccessControlListSearchResponse, error) {
+	var resp IPAccessControlListSearchResponse
+
+	err := c.Start(&resp, nil).
+		WithUri("/api/ip-acl/search").
 		WithJSONBody(request).
 		WithMethod(http.MethodPost).
 		Do()
@@ -4860,26 +4848,6 @@ func (c *FusionAuthClient) TwoFactorLogin(request TwoFactorLoginRequest) (*Login
 	return &resp, &errors, err
 }
 
-// UpdateACL
-// Updates the ACL with the given Id.
-//   string accessControlListId The Id of the ACL to update.
-//   IPAccessControlListRequest request The request that contains all of the new ACL information.
-func (c *FusionAuthClient) UpdateACL(accessControlListId string, request IPAccessControlListRequest) (*IPAccessControlListResponse, *Errors, error) {
-	var resp IPAccessControlListResponse
-	var errors Errors
-
-	restClient := c.Start(&resp, &errors)
-	err := restClient.WithUri("/api/ip-acl").
-		WithUriSegment(accessControlListId).
-		WithJSONBody(request).
-		WithMethod(http.MethodPut).
-		Do()
-	if restClient.ErrorRef == nil {
-		return &resp, nil, err
-	}
-	return &resp, &errors, err
-}
-
 // UpdateAPIKey
 // Updates an API key by given id
 //   string apiKeyId The Id of the API key to update.
@@ -5117,6 +5085,26 @@ func (c *FusionAuthClient) UpdateGroup(groupId string, request GroupRequest) (*G
 	restClient := c.Start(&resp, &errors)
 	err := restClient.WithUri("/api/group").
 		WithUriSegment(groupId).
+		WithJSONBody(request).
+		WithMethod(http.MethodPut).
+		Do()
+	if restClient.ErrorRef == nil {
+		return &resp, nil, err
+	}
+	return &resp, &errors, err
+}
+
+// UpdateIPAccessControlList
+// Updates the IP Access Control List with the given Id.
+//   string accessControlListId The Id of the IP Access Control List to update.
+//   IPAccessControlListRequest request The request that contains all of the new IP Access Control List information.
+func (c *FusionAuthClient) UpdateIPAccessControlList(accessControlListId string, request IPAccessControlListRequest) (*IPAccessControlListResponse, *Errors, error) {
+	var resp IPAccessControlListResponse
+	var errors Errors
+
+	restClient := c.Start(&resp, &errors)
+	err := restClient.WithUri("/api/ip-acl").
+		WithUriSegment(accessControlListId).
 		WithJSONBody(request).
 		WithMethod(http.MethodPut).
 		Do()
