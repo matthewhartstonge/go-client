@@ -2274,7 +2274,7 @@ type IntervalUser struct {
 type IPAccessControlList struct {
 	Data              map[string]interface{}  `json:"data,omitempty"`
 	DefaultAction     IPAccessControlListMode `json:"defaultAction,omitempty"`
-	Exceptions        []IPRange               `json:"exceptions,omitempty"`
+	Exceptions        []IPAddressRange        `json:"exceptions,omitempty"`
 	Id                string                  `json:"id,omitempty"`
 	InsertInstant     int64                   `json:"insertInstant,omitempty"`
 	LastUpdateInstant int64                   `json:"lastUpdateInstant,omitempty"`
@@ -2344,7 +2344,7 @@ func (b *IPAccessControlListSearchResponse) SetStatus(status int) {
 /**
  * @author Brett Guy
  */
-type IPRange struct {
+type IPAddressRange struct {
 	EndIPAddress   string `json:"endIPAddress,omitempty"`
 	StartIPAddress string `json:"startIPAddress,omitempty"`
 }
