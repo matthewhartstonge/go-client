@@ -334,6 +334,16 @@ type AuditLogConfiguration struct {
 }
 
 /**
+ * Event event to an audit log was created.
+ *
+ * @author Daniel DeGroff
+ */
+type AuditLogCreateEvent struct {
+	BaseEvent
+	AuditLog AuditLog `json:"auditLog,omitempty"`
+}
+
+/**
  * @author Daniel DeGroff
  */
 type AuditLogExportRequest struct {
@@ -1386,6 +1396,16 @@ type EventLogConfiguration struct {
 }
 
 /**
+ * Event event to an event log was created.
+ *
+ * @author Daniel DeGroff
+ */
+type EventLogCreateEvent struct {
+	BaseEvent
+	EventLog EventLog `json:"eventLog,omitempty"`
+}
+
+/**
  * Event log response.
  *
  * @author Daniel DeGroff
@@ -1464,25 +1484,43 @@ type EventRequest struct {
 type EventType string
 
 const (
-	EventType_UserDelete               EventType = "user.delete"
-	EventType_UserCreate               EventType = "user.create"
-	EventType_UserUpdate               EventType = "user.update"
-	EventType_UserDeactivate           EventType = "user.deactivate"
-	EventType_UserBulkCreate           EventType = "user.bulk.create"
-	EventType_UserReactivate           EventType = "user.reactivate"
-	EventType_UserAction               EventType = "user.action"
-	EventType_JWTRefreshTokenRevoke    EventType = "jwt.refresh-token.revoke"
-	EventType_JWTRefresh               EventType = "jwt.refresh"
-	EventType_JWTPublicKeyUpdate       EventType = "jwt.public-key.update"
-	EventType_UserLoginSuccess         EventType = "user.login.success"
-	EventType_UserLoginFailed          EventType = "user.login.failed"
-	EventType_UserRegistrationCreate   EventType = "user.registration.create"
-	EventType_UserRegistrationUpdate   EventType = "user.registration.update"
-	EventType_UserRegistrationDelete   EventType = "user.registration.delete"
-	EventType_UserRegistrationVerified EventType = "user.registration.verified"
-	EventType_UserEmailVerified        EventType = "user.email.verified"
-	EventType_UserPasswordBreach       EventType = "user.password.breach"
-	EventType_Test                     EventType = "test"
+	EventType_JWTPublicKeyUpdate             EventType = "jwt.public-key.update"
+	EventType_JWTRefreshTokenRevoke          EventType = "jwt.refresh-token.revoke"
+	EventType_JWTRefresh                     EventType = "jwt.refresh"
+	EventType_AuditLogCreate                 EventType = "audit-log.create"
+	EventType_EventLogCreate                 EventType = "event-log.create"
+	EventType_KickstartSuccess               EventType = "kickstart.success"
+	EventType_UserAction                     EventType = "user.action"
+	EventType_UserBulkCreate                 EventType = "user.bulk.create"
+	EventType_UserCreate                     EventType = "user.create"
+	EventType_UserCreateComplete             EventType = "user.create.complete"
+	EventType_UserDeactivate                 EventType = "user.deactivate"
+	EventType_UserDelete                     EventType = "user.delete"
+	EventType_UserDeleteComplete             EventType = "user.delete.complete"
+	EventType_UserEmailDuplicate             EventType = "user.email.duplicate"
+	EventType_UserEmailUpdate                EventType = "user.email.update"
+	EventType_UserEmailVerified              EventType = "user.email.verified"
+	EventType_UserLoginFailed                EventType = "user.login.failed"
+	EventType_UserLoginNewDevice             EventType = "user.login.new-device"
+	EventType_UserLoginSuccess               EventType = "user.login.success"
+	EventType_UserLoginSuspect               EventType = "user.login.suspect"
+	EventType_UserPasswordBreach             EventType = "user.password.breach"
+	EventType_UserPasswordResetRequest       EventType = "user.password.reset.request"
+	EventType_UserPasswordResetSent          EventType = "user.password.reset.sent"
+	EventType_UserPasswordResetSuccess       EventType = "user.password.reset.success"
+	EventType_UserReactivate                 EventType = "user.reactivate"
+	EventType_UserRegistrationCreate         EventType = "user.registration.create"
+	EventType_UserRegistrationCreateComplete EventType = "user.registration.create.complete"
+	EventType_UserRegistrationDelete         EventType = "user.registration.delete"
+	EventType_UserRegistrationDeleteComplete EventType = "user.registration.delete.complete"
+	EventType_UserRegistrationUpdate         EventType = "user.registration.update"
+	EventType_UserRegistrationUpdateComplete EventType = "user.registration.update.complete"
+	EventType_UserRegistrationVerified       EventType = "user.registration.verified"
+	EventType_UserTwoFactorMethodAdd         EventType = "user.two-factor.method.add"
+	EventType_UserTwoFactorMethodRemove      EventType = "user.two-factor.method.remove"
+	EventType_UserUpdate                     EventType = "user.update"
+	EventType_UserUpdateComplete             EventType = "user.update.complete"
+	EventType_Test                           EventType = "test"
 )
 
 /**
@@ -2604,6 +2642,16 @@ const (
 )
 
 /**
+ * Event event to indicate kickstart has been successfully completed.
+ *
+ * @author Daniel DeGroff
+ */
+type KickstartSuccessEvent struct {
+	BaseEvent
+	InstanceId string `json:"instanceId,omitempty"`
+}
+
+/**
  * A JavaScript lambda function that is executed during certain events inside FusionAuth.
  *
  * @author Brian Pontarelli
@@ -3132,6 +3180,14 @@ type NintendoIdentityProvider struct {
 	ClientId     string `json:"client_id,omitempty"`
 	ClientSecret string `json:"client_secret,omitempty"`
 	Scope        string `json:"scope,omitempty"`
+}
+
+/**
+ * A marker interface indicating this event cannot be made transactional.
+ *
+ * @author Daniel DeGroff
+ */
+type NonTransactionalEvent struct {
 }
 
 /**
@@ -4960,6 +5016,18 @@ func (b *UserConsentResponse) SetStatus(status int) {
 }
 
 /**
+ * Models the User Created Event (and can be converted to JSON).
+ * <p>
+ * This is different than the user.create event in that it will be sent after the user has been created. This event cannot be made transactional.
+ *
+ * @author Daniel DeGroff
+ */
+type UserCreateCompleteEvent struct {
+	BaseEvent
+	User User `json:"user,omitempty"`
+}
+
+/**
  * Models the User Create Event (and can be converted to JSON).
  *
  * @author Brian Pontarelli
@@ -4975,6 +5043,19 @@ type UserCreateEvent struct {
  * @author Brian Pontarelli
  */
 type UserDeactivateEvent struct {
+	BaseEvent
+	User User `json:"user,omitempty"`
+}
+
+/**
+ * Models the User Event (and can be converted to JSON) that is used for all user modifications (create, update,
+ * delete).
+ * <p>
+ * This is different than user.delete because it is sent after the tx is committed, this cannot be transactional.
+ *
+ * @author Daniel DeGroff
+ */
+type UserDeleteCompleteEvent struct {
 	BaseEvent
 	User User `json:"user,omitempty"`
 }
@@ -5021,6 +5102,28 @@ func (b *UserDeleteResponse) SetStatus(status int) {
 }
 
 /**
+ * Models an event where a user is attempted to be registered with the same email address of a user that already exist in FusionAuth.
+ *
+ * @author Daniel DeGroff
+ */
+type UserEmailDuplicateEvent struct {
+	BaseEvent
+	ApplicationId string `json:"applicationId,omitempty"`
+	User          User   `json:"user,omitempty"`
+}
+
+/**
+ * Models an event where a user's email is updated outside of a forgot / change password workflow.
+ *
+ * @author Daniel DeGroff
+ */
+type UserEmailUpdateEvent struct {
+	BaseEvent
+	PreviousEmail string `json:"previousEmail,omitempty"`
+	User          User   `json:"user,omitempty"`
+}
+
+/**
  * Models the User Email Verify Event (and can be converted to JSON).
  *
  * @author Trevor Smith
@@ -5044,6 +5147,15 @@ type UserLoginFailedEvent struct {
 }
 
 /**
+ * Models the User Login event for a new device (un-recognized)
+ *
+ * @author Daniel DeGroff
+ */
+type UserLoginNewDeviceEvent struct {
+	UserLoginSuccessEvent
+}
+
+/**
  * Models the User Login Success Event.
  *
  * @author Daniel DeGroff
@@ -5057,6 +5169,15 @@ type UserLoginSuccessEvent struct {
 	IdentityProviderName string `json:"identityProviderName,omitempty"`
 	IpAddress            string `json:"ipAddress,omitempty"`
 	User                 User   `json:"user,omitempty"`
+}
+
+/**
+ * Models the User Login event that is suspect.
+ *
+ * @author Daniel DeGroff
+ */
+type UserLoginSuspectEvent struct {
+	UserLoginSuccessEvent
 }
 
 type UsernameModeration struct {
@@ -5108,11 +5229,39 @@ type UserRegistration struct {
 }
 
 /**
+ * Models the User Created Registration Event (and can be converted to JSON).
+ * <p>
+ * This is different than the user.registration.create event in that it will be sent after the user has been created. This event cannot be made transactional.
+ *
+ * @author Daniel DeGroff
+ */
+type UserRegistrationCreateCompleteEvent struct {
+	BaseEvent
+	ApplicationId string           `json:"applicationId,omitempty"`
+	Registration  UserRegistration `json:"registration,omitempty"`
+	User          User             `json:"user,omitempty"`
+}
+
+/**
  * Models the User Create Registration Event (and can be converted to JSON).
  *
  * @author Daniel DeGroff
  */
 type UserRegistrationCreateEvent struct {
+	BaseEvent
+	ApplicationId string           `json:"applicationId,omitempty"`
+	Registration  UserRegistration `json:"registration,omitempty"`
+	User          User             `json:"user,omitempty"`
+}
+
+/**
+ * Models the User Deleted Registration Event (and can be converted to JSON).
+ * <p>
+ * This is different than user.registration.delete in that it is sent after the TX has been committed. This event cannot be transactional.
+ *
+ * @author Daniel DeGroff
+ */
+type UserRegistrationDeleteCompleteEvent struct {
 	BaseEvent
 	ApplicationId string           `json:"applicationId,omitempty"`
 	Registration  UserRegistration `json:"registration,omitempty"`
@@ -5127,6 +5276,21 @@ type UserRegistrationCreateEvent struct {
 type UserRegistrationDeleteEvent struct {
 	BaseEvent
 	ApplicationId string           `json:"applicationId,omitempty"`
+	Registration  UserRegistration `json:"registration,omitempty"`
+	User          User             `json:"user,omitempty"`
+}
+
+/**
+ * Models the User Update Registration Event (and can be converted to JSON).
+ * <p>
+ * This is different than user.registration.update in that it is sent after this event completes, this cannot be transactional.
+ *
+ * @author Daniel DeGroff
+ */
+type UserRegistrationUpdateCompleteEvent struct {
+	BaseEvent
+	ApplicationId string           `json:"applicationId,omitempty"`
+	Original      UserRegistration `json:"original,omitempty"`
 	Registration  UserRegistration `json:"registration,omitempty"`
 	User          User             `json:"user,omitempty"`
 }
@@ -5211,6 +5375,39 @@ const (
 type UserTwoFactorConfiguration struct {
 	Methods       []TwoFactorMethod `json:"methods,omitempty"`
 	RecoveryCodes []string          `json:"recoveryCodes,omitempty"`
+}
+
+/**
+ * Model a user event when a two-factor method has been added.
+ *
+ * @author Daniel DeGroff
+ */
+type UserTwoFactorMethodAddEvent struct {
+	BaseEvent
+	Method TwoFactorMethod `json:"method,omitempty"`
+	User   User            `json:"user,omitempty"`
+}
+
+/**
+ * Model a user event when a two-factor method has been added.
+ *
+ * @author Daniel DeGroff
+ */
+type UserTwoFactorMethodRemoveEvent struct {
+	BaseEvent
+	Method TwoFactorMethod `json:"method,omitempty"`
+	User   User            `json:"user,omitempty"`
+}
+
+/**
+ * Models the User Update Event once it is completed. This cannot be transactional.
+ *
+ * @author Daniel DeGroff
+ */
+type UserUpdateCompleteEvent struct {
+	BaseEvent
+	Original User `json:"original,omitempty"`
+	User     User `json:"user,omitempty"`
 }
 
 /**
