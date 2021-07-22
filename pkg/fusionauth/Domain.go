@@ -460,9 +460,10 @@ type BaseElasticSearchCriteria struct {
  */
 type BaseEvent struct {
 	CreateInstant int64     `json:"createInstant,omitempty"`
-	EventInfo     EventInfo `json:"eventInfo,omitempty"`
 	Id            string    `json:"id,omitempty"`
+	Info          EventInfo `json:"info,omitempty"`
 	TenantId      string    `json:"tenantId,omitempty"`
+	Type          EventType `json:"type,omitempty"`
 }
 
 /**
@@ -939,22 +940,32 @@ type EmailAddress struct {
  * @author Brian Pontarelli
  */
 type EmailConfiguration struct {
-	DefaultFromEmail              string                 `json:"defaultFromEmail,omitempty"`
-	DefaultFromName               string                 `json:"defaultFromName,omitempty"`
-	ForgotPasswordEmailTemplateId string                 `json:"forgotPasswordEmailTemplateId,omitempty"`
-	Host                          string                 `json:"host,omitempty"`
-	Password                      string                 `json:"password,omitempty"`
-	PasswordlessEmailTemplateId   string                 `json:"passwordlessEmailTemplateId,omitempty"`
-	Port                          int                    `json:"port,omitempty"`
-	Properties                    string                 `json:"properties,omitempty"`
-	Security                      EmailSecurityType      `json:"security,omitempty"`
-	SetPasswordEmailTemplateId    string                 `json:"setPasswordEmailTemplateId,omitempty"`
-	Unverified                    EmailUnverifiedOptions `json:"unverified,omitempty"`
-	Username                      string                 `json:"username,omitempty"`
-	VerificationEmailTemplateId   string                 `json:"verificationEmailTemplateId,omitempty"`
-	VerificationStrategy          VerificationStrategy   `json:"verificationStrategy,omitempty"`
-	VerifyEmail                   bool                   `json:"verifyEmail"`
-	VerifyEmailWhenChanged        bool                   `json:"verifyEmailWhenChanged"`
+	DefaultFromEmail                         string                 `json:"defaultFromEmail,omitempty"`
+	DefaultFromName                          string                 `json:"defaultFromName,omitempty"`
+	ForgotPasswordEmailTemplateId            string                 `json:"forgotPasswordEmailTemplateId,omitempty"`
+	Host                                     string                 `json:"host,omitempty"`
+	Password                                 string                 `json:"password,omitempty"`
+	PasswordlessEmailTemplateId              string                 `json:"passwordlessEmailTemplateId,omitempty"`
+	Port                                     int                    `json:"port,omitempty"`
+	Properties                               string                 `json:"properties,omitempty"`
+	Security                                 EmailSecurityType      `json:"security,omitempty"`
+	SetPasswordEmailTemplateId               string                 `json:"setPasswordEmailTemplateId,omitempty"`
+	Unverified                               EmailUnverifiedOptions `json:"unverified,omitempty"`
+	UserDuplicateEmailEmailTemplateId        string                 `json:"userDuplicateEmailEmailTemplateId,omitempty"`
+	UserEmailChangedEmailTemplateId          string                 `json:"userEmailChangedEmailTemplateId,omitempty"`
+	UserEmailVerifiedEmailTemplateId         string                 `json:"userEmailVerifiedEmailTemplateId,omitempty"`
+	UserLoginNewDeviceEmailTemplateId        string                 `json:"userLoginNewDeviceEmailTemplateId,omitempty"`
+	UserLoginSuspectEmailTemplateId          string                 `json:"userLoginSuspectEmailTemplateId,omitempty"`
+	Username                                 string                 `json:"username,omitempty"`
+	UserPasswordResetSuccessEmailTemplateId  string                 `json:"userPasswordResetSuccessEmailTemplateId,omitempty"`
+	UserPasswordUpdateEmailTemplateId        string                 `json:"userPasswordUpdateEmailTemplateId,omitempty"`
+	UserRegistrationVerifiedEmailTemplateId  string                 `json:"userRegistrationVerifiedEmailTemplateId,omitempty"`
+	UserTwoFactorMethodAddEmailTemplateId    string                 `json:"userTwoFactorMethodAddEmailTemplateId,omitempty"`
+	UserTwoFactorMethodRemoveEmailTemplateId string                 `json:"userTwoFactorMethodRemoveEmailTemplateId,omitempty"`
+	VerificationEmailTemplateId              string                 `json:"verificationEmailTemplateId,omitempty"`
+	VerificationStrategy                     VerificationStrategy   `json:"verificationStrategy,omitempty"`
+	VerifyEmail                              bool                   `json:"verifyEmail"`
+	VerifyEmailWhenChanged                   bool                   `json:"verifyEmailWhenChanged"`
 }
 
 type EmailPlus struct {
@@ -1505,9 +1516,10 @@ const (
 	EventType_UserLoginSuccess               EventType = "user.login.success"
 	EventType_UserLoginSuspect               EventType = "user.login.suspect"
 	EventType_UserPasswordBreach             EventType = "user.password.breach"
-	EventType_UserPasswordResetRequest       EventType = "user.password.reset.request"
-	EventType_UserPasswordResetSent          EventType = "user.password.reset.sent"
+	EventType_UserPasswordResetSend          EventType = "user.password.reset.send"
+	EventType_UserPasswordResetStart         EventType = "user.password.reset.start"
 	EventType_UserPasswordResetSuccess       EventType = "user.password.reset.success"
+	EventType_UserPasswordUpdate             EventType = "user.password.update"
 	EventType_UserReactivate                 EventType = "user.reactivate"
 	EventType_UserRegistrationCreate         EventType = "user.registration.create"
 	EventType_UserRegistrationCreateComplete EventType = "user.registration.create.complete"
@@ -1926,6 +1938,14 @@ type GenericMessengerConfiguration struct {
 	ReadTimeout                int               `json:"readTimeout,omitempty"`
 	SslCertificate             string            `json:"sslCertificate,omitempty"`
 	Url                        string            `json:"url,omitempty"`
+}
+
+/**
+ * A marker interface indicating this event is not scoped to a tenant and will be sent to all webhooks.
+ *
+ * @author Daniel DeGroff
+ */
+type GlobalEvent struct {
 }
 
 /**
@@ -5196,6 +5216,46 @@ type UserPasswordBreachEvent struct {
 }
 
 /**
+ * Models the User Password Reset Send Event.
+ *
+ * @author Daniel DeGroff
+ */
+type UserPasswordResetSendEvent struct {
+	BaseEvent
+	User User `json:"user,omitempty"`
+}
+
+/**
+ * Models the User Password Reset Start Event.
+ *
+ * @author Daniel DeGroff
+ */
+type UserPasswordResetStartEvent struct {
+	BaseEvent
+	User User `json:"user,omitempty"`
+}
+
+/**
+ * Models the User Password Reset Success Event.
+ *
+ * @author Daniel DeGroff
+ */
+type UserPasswordResetSuccessEvent struct {
+	BaseEvent
+	User User `json:"user,omitempty"`
+}
+
+/**
+ * Models the User Password Update Event.
+ *
+ * @author Daniel DeGroff
+ */
+type UserPasswordUpdateEvent struct {
+	BaseEvent
+	User User `json:"user,omitempty"`
+}
+
+/**
  * Models the User Reactivate Event (and can be converted to JSON).
  *
  * @author Brian Pontarelli
@@ -5378,7 +5438,7 @@ type UserTwoFactorConfiguration struct {
 }
 
 /**
- * Model a user event when a two-factor method has been added.
+ * Model a user event when a two-factor method has been removed.
  *
  * @author Daniel DeGroff
  */
