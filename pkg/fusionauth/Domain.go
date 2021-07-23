@@ -940,32 +940,31 @@ type EmailAddress struct {
  * @author Brian Pontarelli
  */
 type EmailConfiguration struct {
-	DefaultFromEmail                         string                 `json:"defaultFromEmail,omitempty"`
-	DefaultFromName                          string                 `json:"defaultFromName,omitempty"`
-	ForgotPasswordEmailTemplateId            string                 `json:"forgotPasswordEmailTemplateId,omitempty"`
-	Host                                     string                 `json:"host,omitempty"`
-	Password                                 string                 `json:"password,omitempty"`
-	PasswordlessEmailTemplateId              string                 `json:"passwordlessEmailTemplateId,omitempty"`
-	Port                                     int                    `json:"port,omitempty"`
-	Properties                               string                 `json:"properties,omitempty"`
-	Security                                 EmailSecurityType      `json:"security,omitempty"`
-	SetPasswordEmailTemplateId               string                 `json:"setPasswordEmailTemplateId,omitempty"`
-	Unverified                               EmailUnverifiedOptions `json:"unverified,omitempty"`
-	UserDuplicateEmailEmailTemplateId        string                 `json:"userDuplicateEmailEmailTemplateId,omitempty"`
-	UserEmailChangedEmailTemplateId          string                 `json:"userEmailChangedEmailTemplateId,omitempty"`
-	UserEmailVerifiedEmailTemplateId         string                 `json:"userEmailVerifiedEmailTemplateId,omitempty"`
-	UserLoginNewDeviceEmailTemplateId        string                 `json:"userLoginNewDeviceEmailTemplateId,omitempty"`
-	UserLoginSuspectEmailTemplateId          string                 `json:"userLoginSuspectEmailTemplateId,omitempty"`
-	Username                                 string                 `json:"username,omitempty"`
-	UserPasswordResetSuccessEmailTemplateId  string                 `json:"userPasswordResetSuccessEmailTemplateId,omitempty"`
-	UserPasswordUpdateEmailTemplateId        string                 `json:"userPasswordUpdateEmailTemplateId,omitempty"`
-	UserRegistrationVerifiedEmailTemplateId  string                 `json:"userRegistrationVerifiedEmailTemplateId,omitempty"`
-	UserTwoFactorMethodAddEmailTemplateId    string                 `json:"userTwoFactorMethodAddEmailTemplateId,omitempty"`
-	UserTwoFactorMethodRemoveEmailTemplateId string                 `json:"userTwoFactorMethodRemoveEmailTemplateId,omitempty"`
-	VerificationEmailTemplateId              string                 `json:"verificationEmailTemplateId,omitempty"`
-	VerificationStrategy                     VerificationStrategy   `json:"verificationStrategy,omitempty"`
-	VerifyEmail                              bool                   `json:"verifyEmail"`
-	VerifyEmailWhenChanged                   bool                   `json:"verifyEmailWhenChanged"`
+	DefaultFromEmail                     string                 `json:"defaultFromEmail,omitempty"`
+	DefaultFromName                      string                 `json:"defaultFromName,omitempty"`
+	DuplicateEmailEmailTemplateId        string                 `json:"duplicateEmailEmailTemplateId,omitempty"`
+	EmailUpdateEmailTemplateId           string                 `json:"emailUpdateEmailTemplateId,omitempty"`
+	EmailVerifiedEmailTemplateId         string                 `json:"emailVerifiedEmailTemplateId,omitempty"`
+	ForgotPasswordEmailTemplateId        string                 `json:"forgotPasswordEmailTemplateId,omitempty"`
+	Host                                 string                 `json:"host,omitempty"`
+	LoginNewDeviceEmailTemplateId        string                 `json:"loginNewDeviceEmailTemplateId,omitempty"`
+	LoginSuspectEmailTemplateId          string                 `json:"loginSuspectEmailTemplateId,omitempty"`
+	Password                             string                 `json:"password,omitempty"`
+	PasswordlessEmailTemplateId          string                 `json:"passwordlessEmailTemplateId,omitempty"`
+	PasswordResetSuccessEmailTemplateId  string                 `json:"passwordResetSuccessEmailTemplateId,omitempty"`
+	PasswordUpdateEmailTemplateId        string                 `json:"passwordUpdateEmailTemplateId,omitempty"`
+	Port                                 int                    `json:"port,omitempty"`
+	Properties                           string                 `json:"properties,omitempty"`
+	Security                             EmailSecurityType      `json:"security,omitempty"`
+	SetPasswordEmailTemplateId           string                 `json:"setPasswordEmailTemplateId,omitempty"`
+	TwoFactorMethodAddEmailTemplateId    string                 `json:"twoFactorMethodAddEmailTemplateId,omitempty"`
+	TwoFactorMethodRemoveEmailTemplateId string                 `json:"twoFactorMethodRemoveEmailTemplateId,omitempty"`
+	Unverified                           EmailUnverifiedOptions `json:"unverified,omitempty"`
+	Username                             string                 `json:"username,omitempty"`
+	VerificationEmailTemplateId          string                 `json:"verificationEmailTemplateId,omitempty"`
+	VerificationStrategy                 VerificationStrategy   `json:"verificationStrategy,omitempty"`
+	VerifyEmail                          bool                   `json:"verifyEmail"`
+	VerifyEmailWhenChanged               bool                   `json:"verifyEmailWhenChanged"`
 }
 
 type EmailPlus struct {
@@ -1941,14 +1940,6 @@ type GenericMessengerConfiguration struct {
 }
 
 /**
- * A marker interface indicating this event is not scoped to a tenant and will be sent to all webhooks.
- *
- * @author Daniel DeGroff
- */
-type GlobalEvent struct {
-}
-
-/**
  * @author Daniel DeGroff
  */
 type GoogleApplicationConfiguration struct {
@@ -2268,6 +2259,14 @@ type ImportRequest struct {
 	Factor                int    `json:"factor,omitempty"`
 	Users                 []User `json:"users,omitempty"`
 	ValidateDbConstraints bool   `json:"validateDbConstraints"`
+}
+
+/**
+ * A marker interface indicating this event is not scoped to a tenant and will be sent to all webhooks.
+ *
+ * @author Daniel DeGroff
+ */
+type InstanceEvent struct {
 }
 
 /**
