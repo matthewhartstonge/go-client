@@ -3624,13 +3624,12 @@ type RateLimitedRequestConfiguration struct {
 type RateLimitedRequestType string
 
 const (
-	RateLimitedRequestType_FailedLogin                    RateLimitedRequestType = "FailedLogin"
-	RateLimitedRequestType_ForgotPassword                 RateLimitedRequestType = "ForgotPassword"
-	RateLimitedRequestType_ResendEmailVerification        RateLimitedRequestType = "ResendEmailVerification"
-	RateLimitedRequestType_ResendRegistrationVerification RateLimitedRequestType = "ResendRegistrationVerification"
-	RateLimitedRequestType_SendPasswordlessEmail          RateLimitedRequestType = "SendPasswordlessEmail"
-	RateLimitedRequestType_SendTwoFactorEmail             RateLimitedRequestType = "SendTwoFactorEmail"
-	RateLimitedRequestType_SendTwoFactorSMS               RateLimitedRequestType = "SendTwoFactorSMS"
+	RateLimitedRequestType_FailedLogin                  RateLimitedRequestType = "FailedLogin"
+	RateLimitedRequestType_ForgotPassword               RateLimitedRequestType = "ForgotPassword"
+	RateLimitedRequestType_SendEmailVerification        RateLimitedRequestType = "SendEmailVerification"
+	RateLimitedRequestType_SendPasswordless             RateLimitedRequestType = "SendPasswordless"
+	RateLimitedRequestType_SendRegistrationVerification RateLimitedRequestType = "SendRegistrationVerification"
+	RateLimitedRequestType_SendTwoFactor                RateLimitedRequestType = "SendTwoFactor"
 )
 
 /**
@@ -4388,7 +4387,11 @@ type TenantRateLimitingConfiguration struct {
 	ForgotPassword                 RateLimitedRequestConfiguration `json:"forgotPassword,omitempty"`
 	ResendEmailVerification        RateLimitedRequestConfiguration `json:"resendEmailVerification,omitempty"`
 	ResendRegistrationVerification RateLimitedRequestConfiguration `json:"resendRegistrationVerification,omitempty"`
+	SendEmailVerification          RateLimitedRequestConfiguration `json:"sendEmailVerification,omitempty"`
+	SendPasswordless               RateLimitedRequestConfiguration `json:"sendPasswordless,omitempty"`
 	SendPasswordlessEmail          RateLimitedRequestConfiguration `json:"sendPasswordlessEmail,omitempty"`
+	SendRegistrationVerification   RateLimitedRequestConfiguration `json:"sendRegistrationVerification,omitempty"`
+	SendTwoFactor                  RateLimitedRequestConfiguration `json:"sendTwoFactor,omitempty"`
 	SendTwoFactorEmail             RateLimitedRequestConfiguration `json:"sendTwoFactorEmail,omitempty"`
 	SendTwoFactorSMS               RateLimitedRequestConfiguration `json:"sendTwoFactorSMS,omitempty"`
 }
