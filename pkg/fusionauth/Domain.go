@@ -3624,8 +3624,13 @@ type RateLimitedRequestConfiguration struct {
 type RateLimitedRequestType string
 
 const (
-	RateLimitedRequestType_FailedLogin    RateLimitedRequestType = "FailedLogin"
-	RateLimitedRequestType_ForgotPassword RateLimitedRequestType = "ForgotPassword"
+	RateLimitedRequestType_FailedLogin                    RateLimitedRequestType = "FailedLogin"
+	RateLimitedRequestType_ForgotPassword                 RateLimitedRequestType = "ForgotPassword"
+	RateLimitedRequestType_ResendEmailVerification        RateLimitedRequestType = "ResendEmailVerification"
+	RateLimitedRequestType_ResendRegistrationVerification RateLimitedRequestType = "ResendRegistrationVerification"
+	RateLimitedRequestType_SendPasswordlessEmail          RateLimitedRequestType = "SendPasswordlessEmail"
+	RateLimitedRequestType_SendTwoFactorEmail             RateLimitedRequestType = "SendTwoFactorEmail"
+	RateLimitedRequestType_SendTwoFactorSMS               RateLimitedRequestType = "SendTwoFactorSMS"
 )
 
 /**
@@ -4379,7 +4384,13 @@ type TenantOAuth2Configuration struct {
  * @author Daniel DeGroff
  */
 type TenantRateLimitingConfiguration struct {
-	ForgotPassword RateLimitedRequestConfiguration `json:"forgotPassword,omitempty"`
+	FailedLogin                    RateLimitedRequestConfiguration `json:"failedLogin,omitempty"`
+	ForgotPassword                 RateLimitedRequestConfiguration `json:"forgotPassword,omitempty"`
+	ResendEmailVerification        RateLimitedRequestConfiguration `json:"resendEmailVerification,omitempty"`
+	ResendRegistrationVerification RateLimitedRequestConfiguration `json:"resendRegistrationVerification,omitempty"`
+	SendPasswordlessEmail          RateLimitedRequestConfiguration `json:"sendPasswordlessEmail,omitempty"`
+	SendTwoFactorEmail             RateLimitedRequestConfiguration `json:"sendTwoFactorEmail,omitempty"`
+	SendTwoFactorSMS               RateLimitedRequestConfiguration `json:"sendTwoFactorSMS,omitempty"`
 }
 
 /**
