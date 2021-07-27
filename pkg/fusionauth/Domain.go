@@ -220,10 +220,14 @@ type Application struct {
 }
 
 type ApplicationEmailConfiguration struct {
-	EmailVerificationEmailTemplateId string `json:"emailVerificationEmailTemplateId,omitempty"`
-	ForgotPasswordEmailTemplateId    string `json:"forgotPasswordEmailTemplateId,omitempty"`
-	PasswordlessEmailTemplateId      string `json:"passwordlessEmailTemplateId,omitempty"`
-	SetPasswordEmailTemplateId       string `json:"setPasswordEmailTemplateId,omitempty"`
+	EmailVerificationEmailTemplateId    string `json:"emailVerificationEmailTemplateId,omitempty"`
+	EmailVerifiedEmailTemplateId        string `json:"emailVerifiedEmailTemplateId,omitempty"`
+	ForgotPasswordEmailTemplateId       string `json:"forgotPasswordEmailTemplateId,omitempty"`
+	LoginNewDeviceEmailTemplateId       string `json:"loginNewDeviceEmailTemplateId,omitempty"`
+	LoginSuspectEmailTemplateId         string `json:"loginSuspectEmailTemplateId,omitempty"`
+	PasswordlessEmailTemplateId         string `json:"passwordlessEmailTemplateId,omitempty"`
+	PasswordResetSuccessEmailTemplateId string `json:"passwordResetSuccessEmailTemplateId,omitempty"`
+	SetPasswordEmailTemplateId          string `json:"setPasswordEmailTemplateId,omitempty"`
 }
 
 /**
@@ -377,10 +381,13 @@ func (b *AuditLogResponse) SetStatus(status int) {
  */
 type AuditLogSearchCriteria struct {
 	BaseSearchCriteria
-	End     int64  `json:"end,omitempty"`
-	Message string `json:"message,omitempty"`
-	Start   int64  `json:"start,omitempty"`
-	User    string `json:"user,omitempty"`
+	End      int64  `json:"end,omitempty"`
+	Message  string `json:"message,omitempty"`
+	NewValue string `json:"newValue,omitempty"`
+	OldValue string `json:"oldValue,omitempty"`
+	Reason   string `json:"reason,omitempty"`
+	Start    int64  `json:"start,omitempty"`
+	User     string `json:"user,omitempty"`
 }
 
 /**
@@ -3807,6 +3814,7 @@ const (
 type RegistrationConfiguration struct {
 	Enableable
 	BirthDate       Requirable       `json:"birthDate,omitempty"`
+	BlockedDomains  []string         `json:"blockedDomains,omitempty"`
 	ConfirmPassword bool             `json:"confirmPassword"`
 	FirstName       Requirable       `json:"firstName,omitempty"`
 	FormId          string           `json:"formId,omitempty"`
@@ -4383,17 +4391,12 @@ type TenantOAuth2Configuration struct {
  * @author Daniel DeGroff
  */
 type TenantRateLimitingConfiguration struct {
-	FailedLogin                    RateLimitedRequestConfiguration `json:"failedLogin,omitempty"`
-	ForgotPassword                 RateLimitedRequestConfiguration `json:"forgotPassword,omitempty"`
-	ResendEmailVerification        RateLimitedRequestConfiguration `json:"resendEmailVerification,omitempty"`
-	ResendRegistrationVerification RateLimitedRequestConfiguration `json:"resendRegistrationVerification,omitempty"`
-	SendEmailVerification          RateLimitedRequestConfiguration `json:"sendEmailVerification,omitempty"`
-	SendPasswordless               RateLimitedRequestConfiguration `json:"sendPasswordless,omitempty"`
-	SendPasswordlessEmail          RateLimitedRequestConfiguration `json:"sendPasswordlessEmail,omitempty"`
-	SendRegistrationVerification   RateLimitedRequestConfiguration `json:"sendRegistrationVerification,omitempty"`
-	SendTwoFactor                  RateLimitedRequestConfiguration `json:"sendTwoFactor,omitempty"`
-	SendTwoFactorEmail             RateLimitedRequestConfiguration `json:"sendTwoFactorEmail,omitempty"`
-	SendTwoFactorSMS               RateLimitedRequestConfiguration `json:"sendTwoFactorSMS,omitempty"`
+	FailedLogin                  RateLimitedRequestConfiguration `json:"failedLogin,omitempty"`
+	ForgotPassword               RateLimitedRequestConfiguration `json:"forgotPassword,omitempty"`
+	SendEmailVerification        RateLimitedRequestConfiguration `json:"sendEmailVerification,omitempty"`
+	SendPasswordless             RateLimitedRequestConfiguration `json:"sendPasswordless,omitempty"`
+	SendRegistrationVerification RateLimitedRequestConfiguration `json:"sendRegistrationVerification,omitempty"`
+	SendTwoFactor                RateLimitedRequestConfiguration `json:"sendTwoFactor,omitempty"`
 }
 
 /**
