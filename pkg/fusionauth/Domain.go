@@ -5076,6 +5076,7 @@ type UserCreateDuplicateEvent struct {
 	ApplicationId     string `json:"applicationId,omitempty"`
 	DuplicateEmail    string `json:"duplicateEmail,omitempty"`
 	DuplicateUsername string `json:"duplicateUsername,omitempty"`
+	Existing          User   `json:"existing,omitempty"`
 	User              User   `json:"user,omitempty"`
 }
 
