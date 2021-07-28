@@ -949,7 +949,6 @@ type EmailAddress struct {
 type EmailConfiguration struct {
 	DefaultFromEmail                     string                 `json:"defaultFromEmail,omitempty"`
 	DefaultFromName                      string                 `json:"defaultFromName,omitempty"`
-	DuplicateEmailEmailTemplateId        string                 `json:"duplicateEmailEmailTemplateId,omitempty"`
 	EmailUpdateEmailTemplateId           string                 `json:"emailUpdateEmailTemplateId,omitempty"`
 	EmailVerifiedEmailTemplateId         string                 `json:"emailVerifiedEmailTemplateId,omitempty"`
 	ForgotPasswordEmailTemplateId        string                 `json:"forgotPasswordEmailTemplateId,omitempty"`
@@ -967,7 +966,9 @@ type EmailConfiguration struct {
 	TwoFactorMethodAddEmailTemplateId    string                 `json:"twoFactorMethodAddEmailTemplateId,omitempty"`
 	TwoFactorMethodRemoveEmailTemplateId string                 `json:"twoFactorMethodRemoveEmailTemplateId,omitempty"`
 	Unverified                           EmailUnverifiedOptions `json:"unverified,omitempty"`
+	UserCreateDuplicateEmailTemplateId   string                 `json:"userCreateDuplicateEmailTemplateId,omitempty"`
 	Username                             string                 `json:"username,omitempty"`
+	UserUpdateDuplicateEmailTemplateId   string                 `json:"userUpdateDuplicateEmailTemplateId,omitempty"`
 	VerificationEmailTemplateId          string                 `json:"verificationEmailTemplateId,omitempty"`
 	VerificationStrategy                 VerificationStrategy   `json:"verificationStrategy,omitempty"`
 	VerifyEmail                          bool                   `json:"verifyEmail"`
@@ -1514,7 +1515,8 @@ const (
 	EventType_UserDeactivate                 EventType = "user.deactivate"
 	EventType_UserDelete                     EventType = "user.delete"
 	EventType_UserDeleteComplete             EventType = "user.delete.complete"
-	EventType_UserEmailDuplicate             EventType = "user.email.duplicate"
+	EventType_UserCreateDuplicate            EventType = "user.create.duplicate"
+	EventType_UserUpdateDuplicate            EventType = "user.update.duplicate"
 	EventType_UserEmailUpdate                EventType = "user.email.update"
 	EventType_UserEmailVerified              EventType = "user.email.verified"
 	EventType_UserLoginFailed                EventType = "user.login.failed"
@@ -2274,6 +2276,7 @@ type ImportRequest struct {
  * @author Daniel DeGroff
  */
 type InstanceEvent struct {
+	NonTransactionalEvent
 }
 
 /**
@@ -5064,6 +5067,19 @@ type UserCreateCompleteEvent struct {
 }
 
 /**
+ * Models an event where a user is being created with an "in-use" login Id (email or username).
+ *
+ * @author Daniel DeGroff
+ */
+type UserCreateDuplicateEvent struct {
+	BaseEvent
+	ApplicationId     string `json:"applicationId,omitempty"`
+	DuplicateEmail    string `json:"duplicateEmail,omitempty"`
+	DuplicateUsername string `json:"duplicateUsername,omitempty"`
+	User              User   `json:"user,omitempty"`
+}
+
+/**
  * Models the User Create Event (and can be converted to JSON).
  *
  * @author Brian Pontarelli
@@ -5135,17 +5151,6 @@ type UserDeleteResponse struct {
 
 func (b *UserDeleteResponse) SetStatus(status int) {
 	b.StatusCode = status
-}
-
-/**
- * Models an event where a user is attempted to be registered with the same email address of a user that already exist in FusionAuth.
- *
- * @author Daniel DeGroff
- */
-type UserEmailDuplicateEvent struct {
-	BaseEvent
-	ApplicationId string `json:"applicationId,omitempty"`
-	User          User   `json:"user,omitempty"`
 }
 
 /**
@@ -5484,6 +5489,15 @@ type UserUpdateCompleteEvent struct {
 	BaseEvent
 	Original User `json:"original,omitempty"`
 	User     User `json:"user,omitempty"`
+}
+
+/**
+ * Models an event where a user is being updated and tries to use an "in-use" login Id (email or username).
+ *
+ * @author Daniel DeGroff
+ */
+type UserUpdateDuplicateEvent struct {
+	UserCreateDuplicateEvent
 }
 
 /**
