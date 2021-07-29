@@ -1402,7 +1402,6 @@ type EventInfo struct {
 	DeviceDescription string                 `json:"deviceDescription,omitempty"`
 	DeviceName        string                 `json:"deviceName,omitempty"`
 	DeviceType        string                 `json:"deviceType,omitempty"`
-	Instant           int64                  `json:"instant,omitempty"`
 	IpAddress         string                 `json:"ipAddress,omitempty"`
 	Location          Location               `json:"location,omitempty"`
 	Os                string                 `json:"os,omitempty"`
@@ -2579,6 +2578,26 @@ type JWTRefreshTokenRevokeEvent struct {
 	ApplicationTimeToLiveInSeconds map[string]int `json:"applicationTimeToLiveInSeconds,omitempty"`
 	User                           User           `json:"user,omitempty"`
 	UserId                         string         `json:"userId,omitempty"`
+}
+
+/**
+ * @author Daniel DeGroff
+ */
+type JWTVendRequest struct {
+	Claims              map[string]interface{} `json:"claims,omitempty"`
+	TimeToLiveInSeconds int                    `json:"timeToLiveInSeconds,omitempty"`
+}
+
+/**
+ * @author Daniel DeGroff
+ */
+type JWTVendResponse struct {
+	BaseHTTPResponse
+	Token string `json:"token,omitempty"`
+}
+
+func (b *JWTVendResponse) SetStatus(status int) {
+	b.StatusCode = status
 }
 
 /**
