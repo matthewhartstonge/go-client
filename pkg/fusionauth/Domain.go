@@ -953,6 +953,8 @@ type EmailConfiguration struct {
 	EmailVerifiedEmailTemplateId         string                 `json:"emailVerifiedEmailTemplateId,omitempty"`
 	ForgotPasswordEmailTemplateId        string                 `json:"forgotPasswordEmailTemplateId,omitempty"`
 	Host                                 string                 `json:"host,omitempty"`
+	LoginIdInUseOnCreateEmailTemplateId  string                 `json:"loginIdInUseOnCreateEmailTemplateId,omitempty"`
+	LoginIdInUseOnUpdateEmailTemplateId  string                 `json:"loginIdInUseOnUpdateEmailTemplateId,omitempty"`
 	LoginNewDeviceEmailTemplateId        string                 `json:"loginNewDeviceEmailTemplateId,omitempty"`
 	LoginSuspectEmailTemplateId          string                 `json:"loginSuspectEmailTemplateId,omitempty"`
 	Password                             string                 `json:"password,omitempty"`
@@ -966,9 +968,7 @@ type EmailConfiguration struct {
 	TwoFactorMethodAddEmailTemplateId    string                 `json:"twoFactorMethodAddEmailTemplateId,omitempty"`
 	TwoFactorMethodRemoveEmailTemplateId string                 `json:"twoFactorMethodRemoveEmailTemplateId,omitempty"`
 	Unverified                           EmailUnverifiedOptions `json:"unverified,omitempty"`
-	UserCreateDuplicateEmailTemplateId   string                 `json:"userCreateDuplicateEmailTemplateId,omitempty"`
 	Username                             string                 `json:"username,omitempty"`
-	UserUpdateDuplicateEmailTemplateId   string                 `json:"userUpdateDuplicateEmailTemplateId,omitempty"`
 	VerificationEmailTemplateId          string                 `json:"verificationEmailTemplateId,omitempty"`
 	VerificationStrategy                 VerificationStrategy   `json:"verificationStrategy,omitempty"`
 	VerifyEmail                          bool                   `json:"verifyEmail"`
@@ -1515,8 +1515,8 @@ const (
 	EventType_UserDeactivate                 EventType = "user.deactivate"
 	EventType_UserDelete                     EventType = "user.delete"
 	EventType_UserDeleteComplete             EventType = "user.delete.complete"
-	EventType_UserCreateDuplicate            EventType = "user.create.duplicate"
-	EventType_UserUpdateDuplicate            EventType = "user.update.duplicate"
+	EventType_UserLoginIdDuplicateOnCreate   EventType = "user.loginId.duplicate.create"
+	EventType_UserLoginIdDuplicateOnUpdate   EventType = "user.loginId.duplicate.update"
 	EventType_UserEmailUpdate                EventType = "user.email.update"
 	EventType_UserEmailVerified              EventType = "user.email.verified"
 	EventType_UserLoginFailed                EventType = "user.login.failed"
@@ -3817,7 +3817,6 @@ const (
 type RegistrationConfiguration struct {
 	Enableable
 	BirthDate       Requirable       `json:"birthDate,omitempty"`
-	BlockedDomains  []string         `json:"blockedDomains,omitempty"`
 	ConfirmPassword bool             `json:"confirmPassword"`
 	FirstName       Requirable       `json:"firstName,omitempty"`
 	FormId          string           `json:"formId,omitempty"`
@@ -4350,6 +4349,7 @@ type Tenant struct {
 	PasswordEncryptionConfiguration   PasswordEncryptionConfiguration   `json:"passwordEncryptionConfiguration,omitempty"`
 	PasswordValidationRules           PasswordValidationRules           `json:"passwordValidationRules,omitempty"`
 	RateLimitingConfiguration         TenantRateLimitingConfiguration   `json:"rateLimitingConfiguration,omitempty"`
+	RegistrationConfiguration         TenantRegistrationConfiguration   `json:"registrationConfiguration,omitempty"`
 	State                             ObjectState                       `json:"state,omitempty"`
 	ThemeId                           string                            `json:"themeId,omitempty"`
 	ThreatDetectionConfiguration      ThreatDetectionConfiguration      `json:"threatDetectionConfiguration,omitempty"`
@@ -4400,6 +4400,13 @@ type TenantRateLimitingConfiguration struct {
 	SendPasswordless             RateLimitedRequestConfiguration `json:"sendPasswordless,omitempty"`
 	SendRegistrationVerification RateLimitedRequestConfiguration `json:"sendRegistrationVerification,omitempty"`
 	SendTwoFactor                RateLimitedRequestConfiguration `json:"sendTwoFactor,omitempty"`
+}
+
+/**
+ * @author Daniel DeGroff
+ */
+type TenantRegistrationConfiguration struct {
+	BlockedDomains []string `json:"blockedDomains,omitempty"`
 }
 
 /**
@@ -5067,20 +5074,6 @@ type UserCreateCompleteEvent struct {
 }
 
 /**
- * Models an event where a user is being created with an "in-use" login Id (email or username).
- *
- * @author Daniel DeGroff
- */
-type UserCreateDuplicateEvent struct {
-	BaseEvent
-	ApplicationId     string `json:"applicationId,omitempty"`
-	DuplicateEmail    string `json:"duplicateEmail,omitempty"`
-	DuplicateUsername string `json:"duplicateUsername,omitempty"`
-	Existing          User   `json:"existing,omitempty"`
-	User              User   `json:"user,omitempty"`
-}
-
-/**
  * Models the User Create Event (and can be converted to JSON).
  *
  * @author Brian Pontarelli
@@ -5186,6 +5179,29 @@ type UserLoginFailedEvent struct {
 	AuthenticationType string `json:"authenticationType,omitempty"`
 	IpAddress          string `json:"ipAddress,omitempty"`
 	User               User   `json:"user,omitempty"`
+}
+
+/**
+ * Models an event where a user is being created with an "in-use" login Id (email or username).
+ *
+ * @author Daniel DeGroff
+ */
+type UserLoginIdDuplicateOnCreateEvent struct {
+	BaseEvent
+	ApplicationId     string `json:"applicationId,omitempty"`
+	DuplicateEmail    string `json:"duplicateEmail,omitempty"`
+	DuplicateUsername string `json:"duplicateUsername,omitempty"`
+	Existing          User   `json:"existing,omitempty"`
+	User              User   `json:"user,omitempty"`
+}
+
+/**
+ * Models an event where a user is being updated and tries to use an "in-use" login Id (email or username).
+ *
+ * @author Daniel DeGroff
+ */
+type UserLoginIdDuplicateOnUpdateEvent struct {
+	UserLoginIdDuplicateOnCreateEvent
 }
 
 /**
@@ -5490,15 +5506,6 @@ type UserUpdateCompleteEvent struct {
 	BaseEvent
 	Original User `json:"original,omitempty"`
 	User     User `json:"user,omitempty"`
-}
-
-/**
- * Models an event where a user is being updated and tries to use an "in-use" login Id (email or username).
- *
- * @author Daniel DeGroff
- */
-type UserUpdateDuplicateEvent struct {
-	UserCreateDuplicateEvent
 }
 
 /**
