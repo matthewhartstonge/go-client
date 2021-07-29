@@ -261,6 +261,7 @@ type ApplicationRegistrationDeletePolicy struct {
  * @author Brian Pontarelli
  */
 type ApplicationRequest struct {
+	BaseEventRequest
 	Application Application     `json:"application,omitempty"`
 	Role        ApplicationRole `json:"role,omitempty"`
 	WebhookIds  []string        `json:"webhookIds,omitempty"`
@@ -474,6 +475,16 @@ type BaseEvent struct {
 }
 
 /**
+ * Base class for requests that can contain event information. This event information is used when sending Webhooks or emails
+ * during the transaction. The caller is responsible for ensuring that the event information is correct.
+ *
+ * @author Brian Pontarelli
+ */
+type BaseEventRequest struct {
+	EventInfo EventInfo `json:"eventInfo,omitempty"`
+}
+
+/**
  * @author Daniel DeGroff
  */
 type BaseExportRequest struct {
@@ -509,12 +520,12 @@ type BaseIdentityProviderApplicationConfiguration struct {
  * @author Daniel DeGroff
  */
 type BaseLoginRequest struct {
-	ApplicationId string    `json:"applicationId,omitempty"`
-	DeviceTrustId string    `json:"deviceTrustId,omitempty"`
-	EventInfo     EventInfo `json:"eventInfo,omitempty"`
-	IpAddress     string    `json:"ipAddress,omitempty"`
-	MetaData      MetaData  `json:"metaData,omitempty"`
-	NoJWT         bool      `json:"noJWT"`
+	BaseEventRequest
+	ApplicationId string   `json:"applicationId,omitempty"`
+	DeviceTrustId string   `json:"deviceTrustId,omitempty"`
+	IpAddress     string   `json:"ipAddress,omitempty"`
+	MetaData      MetaData `json:"metaData,omitempty"`
+	NoJWT         bool     `json:"noJWT"`
 }
 
 // Do not require a setter for 'type', it is defined by the concrete class and is not mutable
@@ -1387,14 +1398,15 @@ type EventConfigurationData struct {
  * @author Brian Pontarelli
  */
 type EventInfo struct {
-	DeviceDescription string   `json:"deviceDescription,omitempty"`
-	DeviceName        string   `json:"deviceName,omitempty"`
-	DeviceType        string   `json:"deviceType,omitempty"`
-	Instant           int64    `json:"instant,omitempty"`
-	IpAddress         string   `json:"ipAddress,omitempty"`
-	Location          Location `json:"location,omitempty"`
-	Os                string   `json:"os,omitempty"`
-	UserAgent         string   `json:"userAgent,omitempty"`
+	Data              map[string]interface{} `json:"data,omitempty"`
+	DeviceDescription string                 `json:"deviceDescription,omitempty"`
+	DeviceName        string                 `json:"deviceName,omitempty"`
+	DeviceType        string                 `json:"deviceType,omitempty"`
+	Instant           int64                  `json:"instant,omitempty"`
+	IpAddress         string                 `json:"ipAddress,omitempty"`
+	Location          Location               `json:"location,omitempty"`
+	Os                string                 `json:"os,omitempty"`
+	UserAgent         string                 `json:"userAgent,omitempty"`
 }
 
 /**
@@ -3849,6 +3861,7 @@ func (b *RegistrationReportResponse) SetStatus(status int) {
  * @author Brian Pontarelli
  */
 type RegistrationRequest struct {
+	DisableDomainBlock           bool             `json:"disableDomainBlock"`
 	GenerateAuthenticationToken  bool             `json:"generateAuthenticationToken"`
 	Registration                 UserRegistration `json:"registration,omitempty"`
 	SendSetPasswordEmail         bool             `json:"sendSetPasswordEmail"`
@@ -4413,6 +4426,7 @@ type TenantRegistrationConfiguration struct {
  * @author Daniel DeGroff
  */
 type TenantRequest struct {
+	BaseEventRequest
 	SourceTenantId string `json:"sourceTenantId,omitempty"`
 	Tenant         Tenant `json:"tenant,omitempty"`
 }
@@ -5424,6 +5438,7 @@ type UserRegistrationVerifiedEvent struct {
  * @author Brian Pontarelli
  */
 type UserRequest struct {
+	DisableDomainBlock   bool `json:"disableDomainBlock"`
 	SendSetPasswordEmail bool `json:"sendSetPasswordEmail"`
 	SkipVerification     bool `json:"skipVerification"`
 	User                 User `json:"user,omitempty"`
