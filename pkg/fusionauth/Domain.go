@@ -607,14 +607,9 @@ const (
 	CanonicalizationMethod_InclusiveWithComments CanonicalizationMethod = "inclusive_with_comments"
 )
 
-type CaptchaConfiguration struct {
-	Enableable
-	CaptchaMethod CaptchaMethod `json:"captchaMethod,omitempty"`
-	SecretKey     string        `json:"secretKey,omitempty"`
-	SiteKey       string        `json:"siteKey,omitempty"`
-	Threshold     double        `json:"threshold,omitempty"`
-}
-
+/**
+ * @author Brett Pontarelli
+ */
 type CaptchaMethod string
 
 const (
@@ -4372,6 +4367,7 @@ type Templates struct {
  * @author Daniel DeGroff
  */
 type Tenant struct {
+	CaptchaConfiguration              TenantCaptchaConfiguration        `json:"captchaConfiguration,omitempty"`
 	Configured                        bool                              `json:"configured"`
 	ConnectorPolicies                 []ConnectorPolicy                 `json:"connectorPolicies,omitempty"`
 	Data                              map[string]interface{}            `json:"data,omitempty"`
@@ -4400,7 +4396,6 @@ type Tenant struct {
 	RegistrationConfiguration         TenantRegistrationConfiguration   `json:"registrationConfiguration,omitempty"`
 	State                             ObjectState                       `json:"state,omitempty"`
 	ThemeId                           string                            `json:"themeId,omitempty"`
-	ThreatDetectionConfiguration      ThreatDetectionConfiguration      `json:"threatDetectionConfiguration,omitempty"`
 	UserDeletePolicy                  TenantUserDeletePolicy            `json:"userDeletePolicy,omitempty"`
 	UsernameConfiguration             TenantUsernameConfiguration       `json:"usernameConfiguration,omitempty"`
 }
@@ -4409,6 +4404,17 @@ type Tenant struct {
  * @author Brian Pontarelli
  */
 type Tenantable struct {
+}
+
+/**
+ * @author Brett Pontarelli
+ */
+type TenantCaptchaConfiguration struct {
+	Enableable
+	CaptchaMethod CaptchaMethod `json:"captchaMethod,omitempty"`
+	SecretKey     string        `json:"secretKey,omitempty"`
+	SiteKey       string        `json:"siteKey,omitempty"`
+	Threshold     double        `json:"threshold,omitempty"`
 }
 
 /**
@@ -4549,13 +4555,6 @@ type ThemeResponse struct {
 
 func (b *ThemeResponse) SetStatus(status int) {
 	b.StatusCode = status
-}
-
-/**
- * @author Brett Pontarelli
- */
-type ThreatDetectionConfiguration struct {
-	Captcha CaptchaConfiguration `json:"captcha,omitempty"`
 }
 
 /**
