@@ -2590,6 +2590,7 @@ type JWTRefreshTokenRevokeEvent struct {
  */
 type JWTVendRequest struct {
 	Claims              map[string]interface{} `json:"claims,omitempty"`
+	KeyId               string                 `json:"keyId,omitempty"`
 	TimeToLiveInSeconds int                    `json:"timeToLiveInSeconds,omitempty"`
 }
 
