@@ -5445,6 +5445,32 @@ func (c *FusionAuthClient) ValidateJWT(encodedJWT string) (*ValidateResponse, er
 	return &resp, err
 }
 
+// VendJWT
+// It's a JWT vending machine!
+//
+// Issue a new access token (JWT) with the provided claims in the request. This JWT is not scoped to a tenant or user, it is a free form
+// token that will contain what claims you provide.
+// <p>
+// The iat, exp and jti claims will be added by FusionAuth, all other claims must be provided by the caller.
+//
+// If a TTL is not provided in the request, the TTL will be retrieved from the default Tenant or the Tenant specified on the request either
+// by way of the X-FusionAuth-TenantId request header, or a tenant scoped API key.
+//   JWTVendRequest request The request that contains all of the claims for this JWT.
+func (c *FusionAuthClient) VendJWT(request JWTVendRequest) (*JWTVendResponse, *Errors, error) {
+	var resp JWTVendResponse
+	var errors Errors
+
+	restClient := c.Start(&resp, &errors)
+	err := restClient.WithUri("/api/jwt/vend").
+		WithJSONBody(request).
+		WithMethod(http.MethodPost).
+		Do()
+	if restClient.ErrorRef == nil {
+		return &resp, nil, err
+	}
+	return &resp, &errors, err
+}
+
 // VerifyEmail
 // Confirms a email verification. The Id given is usually from an email sent to the user.
 //   string verificationId The email verification id sent to the user.
