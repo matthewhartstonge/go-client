@@ -4392,7 +4392,7 @@ type Tenant struct {
 	OauthConfiguration                TenantOAuth2Configuration         `json:"oauthConfiguration,omitempty"`
 	PasswordEncryptionConfiguration   PasswordEncryptionConfiguration   `json:"passwordEncryptionConfiguration,omitempty"`
 	PasswordValidationRules           PasswordValidationRules           `json:"passwordValidationRules,omitempty"`
-	RateLimitingConfiguration         TenantRateLimitingConfiguration   `json:"rateLimitingConfiguration,omitempty"`
+	RateLimitConfiguration            TenantRateLimitConfiguration      `json:"rateLimitConfiguration,omitempty"`
 	RegistrationConfiguration         TenantRegistrationConfiguration   `json:"registrationConfiguration,omitempty"`
 	State                             ObjectState                       `json:"state,omitempty"`
 	ThemeId                           string                            `json:"themeId,omitempty"`
@@ -4447,7 +4447,7 @@ type TenantOAuth2Configuration struct {
 /**
  * @author Daniel DeGroff
  */
-type TenantRateLimitingConfiguration struct {
+type TenantRateLimitConfiguration struct {
 	FailedLogin                  RateLimitedRequestConfiguration `json:"failedLogin,omitempty"`
 	ForgotPassword               RateLimitedRequestConfiguration `json:"forgotPassword,omitempty"`
 	SendEmailVerification        RateLimitedRequestConfiguration `json:"sendEmailVerification,omitempty"`
