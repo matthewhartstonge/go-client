@@ -75,6 +75,7 @@ type ActionData struct {
  * @author Brian Pontarelli
  */
 type ActionRequest struct {
+	BaseEventRequest
 	Action    ActionData `json:"action,omitempty"`
 	Broadcast bool       `json:"broadcast"`
 }
@@ -360,6 +361,7 @@ type AuditLogExportRequest struct {
  * @author Brian Pontarelli
  */
 type AuditLogRequest struct {
+	BaseEventRequest
 	AuditLog AuditLog `json:"auditLog,omitempty"`
 }
 
@@ -653,6 +655,7 @@ const (
  * @author Brian Pontarelli
  */
 type ChangePasswordRequest struct {
+	BaseEventRequest
 	CurrentPassword string `json:"currentPassword,omitempty"`
 	LoginId         string `json:"loginId,omitempty"`
 	Password        string `json:"password,omitempty"`
@@ -1749,6 +1752,7 @@ const (
  * @author Brian Pontarelli
  */
 type ForgotPasswordRequest struct {
+	BaseEventRequest
 	ApplicationId           string                 `json:"applicationId,omitempty"`
 	ChangePasswordId        string                 `json:"changePasswordId,omitempty"`
 	Email                   string                 `json:"email,omitempty"`
@@ -2275,6 +2279,7 @@ const (
  * @author Brian Pontarelli
  */
 type ImportRequest struct {
+	BaseEventRequest
 	EncryptionScheme      string `json:"encryptionScheme,omitempty"`
 	Factor                int    `json:"factor,omitempty"`
 	Users                 []User `json:"users,omitempty"`
@@ -3761,6 +3766,7 @@ func (b *RecentLoginResponse) SetStatus(status int) {
  * @author Daniel DeGroff
  */
 type RefreshRequest struct {
+	BaseEventRequest
 	RefreshToken string `json:"refreshToken,omitempty"`
 	Token        string `json:"token,omitempty"`
 }
@@ -3880,6 +3886,7 @@ func (b *RegistrationReportResponse) SetStatus(status int) {
  * @author Brian Pontarelli
  */
 type RegistrationRequest struct {
+	BaseEventRequest
 	DisableDomainBlock           bool             `json:"disableDomainBlock"`
 	GenerateAuthenticationToken  bool             `json:"generateAuthenticationToken"`
 	Registration                 UserRegistration `json:"registration,omitempty"`
@@ -4278,6 +4285,7 @@ type SystemConfiguration struct {
 	LastUpdateInstant        int64                    `json:"lastUpdateInstant,omitempty"`
 	LoginRecordConfiguration LoginRecordConfiguration `json:"loginRecordConfiguration,omitempty"`
 	ReportTimezone           string                   `json:"reportTimezone,omitempty"`
+	SsoConfiguration         SystemSSOConfiguration   `json:"ssoConfiguration,omitempty"`
 	UiConfiguration          UIConfiguration          `json:"uiConfiguration,omitempty"`
 }
 
@@ -4310,6 +4318,13 @@ func (b *SystemConfigurationResponse) SetStatus(status int) {
 type SystemLogsExportRequest struct {
 	BaseExportRequest
 	LastNBytes int `json:"lastNBytes,omitempty"`
+}
+
+/**
+ * @author Brett Pontarelli
+ */
+type SystemSSOConfiguration struct {
+	SsoDeviceTrustTimeToLiveInSeconds int `json:"ssoDeviceTrustTimeToLiveInSeconds,omitempty"`
 }
 
 type Templates struct {
@@ -5156,6 +5171,7 @@ type UserDeleteEvent struct {
  * @author Daniel DeGroff
  */
 type UserDeleteRequest struct {
+	BaseEventRequest
 	DryRun      bool     `json:"dryRun"`
 	HardDelete  bool     `json:"hardDelete"`
 	Query       string   `json:"query,omitempty"`
@@ -5457,6 +5473,7 @@ type UserRegistrationVerifiedEvent struct {
  * @author Brian Pontarelli
  */
 type UserRequest struct {
+	BaseEventRequest
 	DisableDomainBlock   bool `json:"disableDomainBlock"`
 	SendSetPasswordEmail bool `json:"sendSetPasswordEmail"`
 	SkipVerification     bool `json:"skipVerification"`
@@ -5579,6 +5596,7 @@ const (
  * @author Daniel DeGroff
  */
 type VerifyEmailRequest struct {
+	BaseEventRequest
 	OneTimeCode    string `json:"oneTimeCode,omitempty"`
 	VerificationId string `json:"verificationId,omitempty"`
 }
@@ -5600,6 +5618,7 @@ func (b *VerifyEmailResponse) SetStatus(status int) {
  * @author Daniel DeGroff
  */
 type VerifyRegistrationRequest struct {
+	BaseEventRequest
 	OneTimeCode    string `json:"oneTimeCode,omitempty"`
 	VerificationId string `json:"verificationId,omitempty"`
 }

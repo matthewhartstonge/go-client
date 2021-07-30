@@ -1509,6 +1509,25 @@ func (c *FusionAuthClient) DeleteUserLink(identityProviderId string, identityPro
 	return &resp, &errors, err
 }
 
+// DeleteUserWithRequest
+// Deletes the user based on the given request (sent to the API as JSON). This permanently deletes all information, metrics, reports and data associated
+// with the user.
+//   UserDeleteRequest request The request object that contains all of the information used to delete the user.
+func (c *FusionAuthClient) DeleteUserWithRequest(request UserDeleteRequest) (*BaseHTTPResponse, *Errors, error) {
+	var resp BaseHTTPResponse
+	var errors Errors
+
+	restClient := c.Start(&resp, &errors)
+	err := restClient.WithUri("/api/user").
+		WithJSONBody(request).
+		WithMethod(http.MethodDelete).
+		Do()
+	if restClient.ErrorRef == nil {
+		return &resp, nil, err
+	}
+	return &resp, &errors, err
+}
+
 // DeleteUsers
 // Deletes the users with the given ids, or users matching the provided JSON query or queryString.
 // The order of preference is ids, query and then queryString, it is recommended to only provide one of the three for the request.
