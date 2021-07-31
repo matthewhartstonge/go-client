@@ -1512,8 +1512,8 @@ func (c *FusionAuthClient) DeleteUserLink(identityProviderId string, identityPro
 // DeleteUserWithRequest
 // Deletes the user based on the given request (sent to the API as JSON). This permanently deletes all information, metrics, reports and data associated
 // with the user.
-//   UserDeleteRequest request The request object that contains all of the information used to delete the user.
-func (c *FusionAuthClient) DeleteUserWithRequest(request UserDeleteRequest) (*BaseHTTPResponse, *Errors, error) {
+//   UserDeleteSingleRequest request The request object that contains all of the information used to delete the user.
+func (c *FusionAuthClient) DeleteUserWithRequest(request UserDeleteSingleRequest) (*BaseHTTPResponse, *Errors, error) {
 	var resp BaseHTTPResponse
 	var errors Errors
 

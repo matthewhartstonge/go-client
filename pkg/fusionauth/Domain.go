@@ -5197,6 +5197,17 @@ func (b *UserDeleteResponse) SetStatus(status int) {
 }
 
 /**
+ * User API delete request object for a single user.
+ *
+ * @author Brian Pontarelli
+ */
+type UserDeleteSingleRequest struct {
+	BaseEventRequest
+	HardDelete bool   `json:"hardDelete"`
+	UserId     string `json:"userId,omitempty"`
+}
+
+/**
  * Models an event where a user's email is updated outside of a forgot / change password workflow.
  *
  * @author Daniel DeGroff
