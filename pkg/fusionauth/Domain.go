@@ -3834,6 +3834,18 @@ type RefreshTokenRevocationPolicy struct {
 }
 
 /**
+ * Request for the Refresh Token API to revoke a refresh token rather than using the URL parameters.
+ *
+ * @author Brian Pontarelli
+ */
+type RefreshTokenRevokeRequest struct {
+	BaseEventRequest
+	ApplicationId string `json:"applicationId,omitempty"`
+	Token         string `json:"token,omitempty"`
+	UserId        string `json:"userId,omitempty"`
+}
+
+/**
  * @author Daniel DeGroff
  */
 type RefreshTokenUsagePolicy string
@@ -4414,6 +4426,16 @@ type TenantCaptchaConfiguration struct {
 }
 
 /**
+ * Request for the Tenant API to delete a tenant rather than using the URL parameters.
+ *
+ * @author Brian Pontarelli
+ */
+type TenantDeleteRequest struct {
+	BaseEventRequest
+	Async bool `json:"async"`
+}
+
+/**
  * @author Daniel DeGroff
  */
 type TenantFormConfiguration struct {
@@ -4966,20 +4988,6 @@ const (
 )
 
 /**
- * Models action reasons.
- *
- * @author Brian Pontarelli
- */
-type UserActionReason struct {
-	Code              string            `json:"code,omitempty"`
-	Id                string            `json:"id,omitempty"`
-	InsertInstant     int64             `json:"insertInstant,omitempty"`
-	LastUpdateInstant int64             `json:"lastUpdateInstant,omitempty"`
-	LocalizedTexts    map[string]string `json:"localizedTexts,omitempty"`
-	Text              string            `json:"text,omitempty"`
-}
-
-/**
  * User Action Reason API request object.
  *
  * @author Brian Pontarelli
@@ -5208,8 +5216,7 @@ func (b *UserDeleteResponse) SetStatus(status int) {
  */
 type UserDeleteSingleRequest struct {
 	BaseEventRequest
-	HardDelete bool   `json:"hardDelete"`
-	UserId     string `json:"userId,omitempty"`
+	HardDelete bool `json:"hardDelete"`
 }
 
 /**
