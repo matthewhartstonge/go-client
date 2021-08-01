@@ -4246,6 +4246,12 @@ type SortField struct {
 }
 
 /**
+ * @author Daniel DeGroff
+ */
+type SQLTools struct {
+}
+
+/**
  * @author Brett Pontarelli
  */
 type SteamApplicationConfiguration struct {
