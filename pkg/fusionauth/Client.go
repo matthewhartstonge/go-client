@@ -2076,6 +2076,21 @@ func (c *FusionAuthClient) Logout(global bool, refreshToken string) (*BaseHTTPRe
 	return &resp, err
 }
 
+// Logout
+// The Logout API is intended to be used to remove the refresh token and access token cookies if they exist on the
+// client and revoke the refresh token stored. This API takes the refresh token in the JSON body.
+//   LogoutRequest request The request object that contains all of the information used to logout the user.
+func (c *FusionAuthClient) Logout(request LogoutRequest) (*BaseHTTPResponse, error) {
+	var resp BaseHTTPResponse
+
+	err := c.StartAnonymous(&resp, nil).
+		WithUri("/api/logout").
+		WithJSONBody(request).
+		WithMethod(http.MethodPost).
+		Do()
+	return &resp, err
+}
+
 // LookupIdentityProvider
 // Retrieves the identity provider for the given domain. A 200 response code indicates the domain is managed
 // by a registered identity provider. A 404 indicates the domain is not managed.

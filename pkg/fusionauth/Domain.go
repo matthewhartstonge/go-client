@@ -3007,6 +3007,17 @@ const (
 )
 
 /**
+ * Request for the Logout API that can be used as an alternative to URL parameters.
+ *
+ * @author Brian Pontarelli
+ */
+type LogoutRequest struct {
+	BaseEventRequest
+	Global       bool   `json:"global"`
+	RefreshToken string `json:"refreshToken,omitempty"`
+}
+
+/**
  * @author Daniel DeGroff
  */
 type LookupResponse struct {
