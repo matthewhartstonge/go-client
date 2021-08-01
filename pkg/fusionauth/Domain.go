@@ -121,14 +121,15 @@ const (
  * @author sanjay
  */
 type APIKey struct {
-	Id                string            `json:"id,omitempty"`
-	InsertInstant     int64             `json:"insertInstant,omitempty"`
-	Key               string            `json:"key,omitempty"`
-	KeyManager        bool              `json:"keyManager"`
-	LastUpdateInstant int64             `json:"lastUpdateInstant,omitempty"`
-	MetaData          APIKeyMetaData    `json:"metaData,omitempty"`
-	Permissions       APIKeyPermissions `json:"permissions,omitempty"`
-	TenantId          string            `json:"tenantId,omitempty"`
+	Id                    string            `json:"id,omitempty"`
+	InsertInstant         int64             `json:"insertInstant,omitempty"`
+	IpAccessControlListId string            `json:"ipAccessControlListId,omitempty"`
+	Key                   string            `json:"key,omitempty"`
+	KeyManager            bool              `json:"keyManager"`
+	LastUpdateInstant     int64             `json:"lastUpdateInstant,omitempty"`
+	MetaData              APIKeyMetaData    `json:"metaData,omitempty"`
+	Permissions           APIKeyPermissions `json:"permissions,omitempty"`
+	TenantId              string            `json:"tenantId,omitempty"`
 }
 
 type APIKeyMetaData struct {
@@ -850,14 +851,6 @@ type DailyActiveUserReportResponse struct {
 
 func (b *DailyActiveUserReportResponse) SetStatus(status int) {
 	b.StatusCode = status
-}
-
-/**
- * Helper for dealing with default values.
- *
- * @author Brian Pontarelli
- */
-type DefaultTools struct {
 }
 
 type DeleteConfiguration struct {
@@ -2349,25 +2342,33 @@ type IntervalUser struct {
 /**
  * @author Brett Guy
  */
-type IPAccessControlList struct {
-	Data              map[string]interface{}  `json:"data,omitempty"`
-	DefaultAction     IPAccessControlListMode `json:"defaultAction,omitempty"`
-	Exceptions        []IPAddressRange        `json:"exceptions,omitempty"`
-	Id                string                  `json:"id,omitempty"`
-	InsertInstant     int64                   `json:"insertInstant,omitempty"`
-	LastUpdateInstant int64                   `json:"lastUpdateInstant,omitempty"`
-	Name              string                  `json:"name,omitempty"`
+type IPAccessControlEntry struct {
+	Action         IPAccessControlEntryAction `json:"action,omitempty"`
+	EndIPAddress   string                     `json:"endIPAddress,omitempty"`
+	StartIPAddress string                     `json:"startIPAddress,omitempty"`
 }
 
 /**
  * @author Brett Guy
  */
-type IPAccessControlListMode string
+type IPAccessControlEntryAction string
 
 const (
-	IPAccessControlListMode_Allow IPAccessControlListMode = "Allow"
-	IPAccessControlListMode_Block IPAccessControlListMode = "Block"
+	IPAccessControlEntryAction_Allow IPAccessControlEntryAction = "Allow"
+	IPAccessControlEntryAction_Block IPAccessControlEntryAction = "Block"
 )
+
+/**
+ * @author Brett Guy
+ */
+type IPAccessControlList struct {
+	Data              map[string]interface{} `json:"data,omitempty"`
+	Entries           []IPAccessControlEntry `json:"entries,omitempty"`
+	Id                string                 `json:"id,omitempty"`
+	InsertInstant     int64                  `json:"insertInstant,omitempty"`
+	LastUpdateInstant int64                  `json:"lastUpdateInstant,omitempty"`
+	Name              string                 `json:"name,omitempty"`
+}
 
 /**
  * @author Brett Guy
@@ -2417,14 +2418,6 @@ type IPAccessControlListSearchResponse struct {
 
 func (b *IPAccessControlListSearchResponse) SetStatus(status int) {
 	b.StatusCode = status
-}
-
-/**
- * @author Brett Guy
- */
-type IPAddressRange struct {
-	EndIPAddress   string `json:"endIPAddress,omitempty"`
-	StartIPAddress string `json:"startIPAddress,omitempty"`
 }
 
 /**
@@ -3249,14 +3242,6 @@ type NintendoIdentityProvider struct {
  * @author Daniel DeGroff
  */
 type NonTransactionalEvent struct {
-}
-
-/**
- * Helper methods for normalizing values.
- *
- * @author Brian Pontarelli
- */
-type Normalizer struct {
 }
 
 /**
@@ -4794,6 +4779,15 @@ type TwoFactorStartResponse struct {
 func (b *TwoFactorStartResponse) SetStatus(status int) {
 	b.StatusCode = status
 }
+
+/**
+ * @author Daniel DeGroff
+ */
+type Type string
+
+const (
+	Type_JWT Type = "JWT"
+)
 
 type UIConfiguration struct {
 	HeaderColor   string `json:"headerColor,omitempty"`
