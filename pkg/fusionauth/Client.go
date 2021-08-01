@@ -4339,61 +4339,6 @@ func (c *FusionAuthClient) RetrieveWebhooks() (*WebhookResponse, error) {
 	return &resp, err
 }
 
-// RevokeRefreshTokenWithRequest
-// Revokes refresh tokens using the information in the JSON body. The handling for this method is the same as the revokeRefreshToken method
-// and is based on the information you provide in the RefreshDeleteRequest object. See that method for additional information.
-//   RefreshTokenRevokeRequest request The request information used to revoke the refresh tokens.
-func (c *FusionAuthClient) RevokeRefreshTokenWithRequest(request RefreshTokenRevokeRequest) (*BaseHTTPResponse, *Errors, error) {
-	var resp BaseHTTPResponse
-	var errors Errors
-
-	restClient := c.Start(&resp, &errors)
-	err := restClient.WithUri("/api/jwt/refresh").
-		WithJSONBody(request).
-		WithMethod(http.MethodDelete).
-		Do()
-	if restClient.ErrorRef == nil {
-		return &resp, nil, err
-	}
-	return &resp, &errors, err
-}
-
-// RevokeRefreshTokenById
-// Revokes a single refresh token by the unique Id. The unique Id is not sensitive as it cannot be used to obtain another JWT.
-//   string tokenId The unique Id of the token to delete.
-func (c *FusionAuthClient) RevokeRefreshTokenById(tokenId string) (*BaseHTTPResponse, *Errors, error) {
-	var resp BaseHTTPResponse
-	var errors Errors
-
-	restClient := c.Start(&resp, &errors)
-	err := restClient.WithUri("/api/jwt/refresh").
-		WithUriSegment(tokenId).
-		WithMethod(http.MethodDelete).
-		Do()
-	if restClient.ErrorRef == nil {
-		return &resp, nil, err
-	}
-	return &resp, &errors, err
-}
-
-// RevokeRefreshTokenByToken
-// Revokes a single refresh token by using the actual refresh token value. This refresh token value is sensitive, so  be careful with this API request.
-//   string token The refresh token to delete.
-func (c *FusionAuthClient) RevokeRefreshTokenByToken(token string) (*BaseHTTPResponse, *Errors, error) {
-	var resp BaseHTTPResponse
-	var errors Errors
-
-	restClient := c.Start(&resp, &errors)
-	err := restClient.WithUri("/api/jwt/refresh").
-		WithParameter("token", token).
-		WithMethod(http.MethodDelete).
-		Do()
-	if restClient.ErrorRef == nil {
-		return &resp, nil, err
-	}
-	return &resp, &errors, err
-}
-
 // RevokeRefreshToken
 // Revokes refresh tokens.
 //
@@ -4431,6 +4376,42 @@ func (c *FusionAuthClient) RevokeRefreshToken(token string, userId string, appli
 		WithParameter("token", token).
 		WithParameter("userId", userId).
 		WithParameter("applicationId", applicationId).
+		WithMethod(http.MethodDelete).
+		Do()
+	if restClient.ErrorRef == nil {
+		return &resp, nil, err
+	}
+	return &resp, &errors, err
+}
+
+// RevokeRefreshTokenById
+// Revokes a single refresh token by the unique Id. The unique Id is not sensitive as it cannot be used to obtain another JWT.
+//   string tokenId The unique Id of the token to delete.
+func (c *FusionAuthClient) RevokeRefreshTokenById(tokenId string) (*BaseHTTPResponse, *Errors, error) {
+	var resp BaseHTTPResponse
+	var errors Errors
+
+	restClient := c.Start(&resp, &errors)
+	err := restClient.WithUri("/api/jwt/refresh").
+		WithUriSegment(tokenId).
+		WithMethod(http.MethodDelete).
+		Do()
+	if restClient.ErrorRef == nil {
+		return &resp, nil, err
+	}
+	return &resp, &errors, err
+}
+
+// RevokeRefreshTokenByToken
+// Revokes a single refresh token by using the actual refresh token value. This refresh token value is sensitive, so  be careful with this API request.
+//   string token The refresh token to delete.
+func (c *FusionAuthClient) RevokeRefreshTokenByToken(token string) (*BaseHTTPResponse, *Errors, error) {
+	var resp BaseHTTPResponse
+	var errors Errors
+
+	restClient := c.Start(&resp, &errors)
+	err := restClient.WithUri("/api/jwt/refresh").
+		WithParameter("token", token).
 		WithMethod(http.MethodDelete).
 		Do()
 	if restClient.ErrorRef == nil {
@@ -4487,6 +4468,25 @@ func (c *FusionAuthClient) RevokeRefreshTokensByUserIdForApplication(userId stri
 	err := restClient.WithUri("/api/jwt/refresh").
 		WithParameter("userId", userId).
 		WithParameter("applicationId", applicationId).
+		WithMethod(http.MethodDelete).
+		Do()
+	if restClient.ErrorRef == nil {
+		return &resp, nil, err
+	}
+	return &resp, &errors, err
+}
+
+// RevokeRefreshTokensWithRequest
+// Revokes refresh tokens using the information in the JSON body. The handling for this method is the same as the revokeRefreshToken method
+// and is based on the information you provide in the RefreshDeleteRequest object. See that method for additional information.
+//   RefreshTokenRevokeRequest request The request information used to revoke the refresh tokens.
+func (c *FusionAuthClient) RevokeRefreshTokensWithRequest(request RefreshTokenRevokeRequest) (*BaseHTTPResponse, *Errors, error) {
+	var resp BaseHTTPResponse
+	var errors Errors
+
+	restClient := c.Start(&resp, &errors)
+	err := restClient.WithUri("/api/jwt/refresh").
+		WithJSONBody(request).
 		WithMethod(http.MethodDelete).
 		Do()
 	if restClient.ErrorRef == nil {
