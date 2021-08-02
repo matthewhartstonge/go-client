@@ -4375,44 +4375,51 @@ type Templates struct {
  * @author Daniel DeGroff
  */
 type Tenant struct {
-	CaptchaConfiguration              TenantCaptchaConfiguration             `json:"captchaConfiguration,omitempty"`
-	Configured                        bool                                   `json:"configured"`
-	ConnectorPolicies                 []ConnectorPolicy                      `json:"connectorPolicies,omitempty"`
-	Data                              map[string]interface{}                 `json:"data,omitempty"`
-	EmailConfiguration                EmailConfiguration                     `json:"emailConfiguration,omitempty"`
-	EventConfiguration                EventConfiguration                     `json:"eventConfiguration,omitempty"`
-	ExternalIdentifierConfiguration   ExternalIdentifierConfiguration        `json:"externalIdentifierConfiguration,omitempty"`
-	FailedAuthenticationConfiguration FailedAuthenticationConfiguration      `json:"failedAuthenticationConfiguration,omitempty"`
-	FamilyConfiguration               FamilyConfiguration                    `json:"familyConfiguration,omitempty"`
-	FormConfiguration                 TenantFormConfiguration                `json:"formConfiguration,omitempty"`
-	HttpSessionMaxInactiveInterval    int                                    `json:"httpSessionMaxInactiveInterval,omitempty"`
-	Id                                string                                 `json:"id,omitempty"`
-	InsertInstant                     int64                                  `json:"insertInstant,omitempty"`
-	IpAccessControlListConfiguration  TenantIPAccessControlListConfiguration `json:"ipAccessControlListConfiguration,omitempty"`
-	Issuer                            string                                 `json:"issuer,omitempty"`
-	JwtConfiguration                  JWTConfiguration                       `json:"jwtConfiguration,omitempty"`
-	LastUpdateInstant                 int64                                  `json:"lastUpdateInstant,omitempty"`
-	LoginConfiguration                TenantLoginConfiguration               `json:"loginConfiguration,omitempty"`
-	LogoutURL                         string                                 `json:"logoutURL,omitempty"`
-	MaximumPasswordAge                MaximumPasswordAge                     `json:"maximumPasswordAge,omitempty"`
-	MinimumPasswordAge                MinimumPasswordAge                     `json:"minimumPasswordAge,omitempty"`
-	MultiFactorConfiguration          TenantMultiFactorConfiguration         `json:"multiFactorConfiguration,omitempty"`
-	Name                              string                                 `json:"name,omitempty"`
-	OauthConfiguration                TenantOAuth2Configuration              `json:"oauthConfiguration,omitempty"`
-	PasswordEncryptionConfiguration   PasswordEncryptionConfiguration        `json:"passwordEncryptionConfiguration,omitempty"`
-	PasswordValidationRules           PasswordValidationRules                `json:"passwordValidationRules,omitempty"`
-	RateLimitConfiguration            TenantRateLimitConfiguration           `json:"rateLimitConfiguration,omitempty"`
-	RegistrationConfiguration         TenantRegistrationConfiguration        `json:"registrationConfiguration,omitempty"`
-	State                             ObjectState                            `json:"state,omitempty"`
-	ThemeId                           string                                 `json:"themeId,omitempty"`
-	UserDeletePolicy                  TenantUserDeletePolicy                 `json:"userDeletePolicy,omitempty"`
-	UsernameConfiguration             TenantUsernameConfiguration            `json:"usernameConfiguration,omitempty"`
+	AccessControlListConfiguration    TenantAccessControlListConfiguration `json:"accessControlListConfiguration,omitempty"`
+	CaptchaConfiguration              TenantCaptchaConfiguration           `json:"captchaConfiguration,omitempty"`
+	Configured                        bool                                 `json:"configured"`
+	ConnectorPolicies                 []ConnectorPolicy                    `json:"connectorPolicies,omitempty"`
+	Data                              map[string]interface{}               `json:"data,omitempty"`
+	EmailConfiguration                EmailConfiguration                   `json:"emailConfiguration,omitempty"`
+	EventConfiguration                EventConfiguration                   `json:"eventConfiguration,omitempty"`
+	ExternalIdentifierConfiguration   ExternalIdentifierConfiguration      `json:"externalIdentifierConfiguration,omitempty"`
+	FailedAuthenticationConfiguration FailedAuthenticationConfiguration    `json:"failedAuthenticationConfiguration,omitempty"`
+	FamilyConfiguration               FamilyConfiguration                  `json:"familyConfiguration,omitempty"`
+	FormConfiguration                 TenantFormConfiguration              `json:"formConfiguration,omitempty"`
+	HttpSessionMaxInactiveInterval    int                                  `json:"httpSessionMaxInactiveInterval,omitempty"`
+	Id                                string                               `json:"id,omitempty"`
+	InsertInstant                     int64                                `json:"insertInstant,omitempty"`
+	Issuer                            string                               `json:"issuer,omitempty"`
+	JwtConfiguration                  JWTConfiguration                     `json:"jwtConfiguration,omitempty"`
+	LastUpdateInstant                 int64                                `json:"lastUpdateInstant,omitempty"`
+	LoginConfiguration                TenantLoginConfiguration             `json:"loginConfiguration,omitempty"`
+	LogoutURL                         string                               `json:"logoutURL,omitempty"`
+	MaximumPasswordAge                MaximumPasswordAge                   `json:"maximumPasswordAge,omitempty"`
+	MinimumPasswordAge                MinimumPasswordAge                   `json:"minimumPasswordAge,omitempty"`
+	MultiFactorConfiguration          TenantMultiFactorConfiguration       `json:"multiFactorConfiguration,omitempty"`
+	Name                              string                               `json:"name,omitempty"`
+	OauthConfiguration                TenantOAuth2Configuration            `json:"oauthConfiguration,omitempty"`
+	PasswordEncryptionConfiguration   PasswordEncryptionConfiguration      `json:"passwordEncryptionConfiguration,omitempty"`
+	PasswordValidationRules           PasswordValidationRules              `json:"passwordValidationRules,omitempty"`
+	RateLimitConfiguration            TenantRateLimitConfiguration         `json:"rateLimitConfiguration,omitempty"`
+	RegistrationConfiguration         TenantRegistrationConfiguration      `json:"registrationConfiguration,omitempty"`
+	State                             ObjectState                          `json:"state,omitempty"`
+	ThemeId                           string                               `json:"themeId,omitempty"`
+	UserDeletePolicy                  TenantUserDeletePolicy               `json:"userDeletePolicy,omitempty"`
+	UsernameConfiguration             TenantUsernameConfiguration          `json:"usernameConfiguration,omitempty"`
 }
 
 /**
  * @author Brian Pontarelli
  */
 type Tenantable struct {
+}
+
+/**
+ * @author Brett Guy
+ */
+type TenantAccessControlListConfiguration struct {
+	IpAccessControlListId string `json:"ipAccessControlListId,omitempty"`
 }
 
 /**
@@ -4441,14 +4448,6 @@ type TenantDeleteRequest struct {
  */
 type TenantFormConfiguration struct {
 	AdminUserFormId string `json:"adminUserFormId,omitempty"`
-}
-
-/**
- * @author Brett Guy
- */
-type TenantIPAccessControlListConfiguration struct {
-	Enableable
-	IpAccessControlListId string `json:"ipAccessControlListId,omitempty"`
 }
 
 /**
