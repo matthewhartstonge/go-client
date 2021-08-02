@@ -1649,9 +1649,29 @@ func (c *FusionAuthClient) DisableTwoFactor(userId string, methodId string, code
 
 	restClient := c.Start(&resp, &errors)
 	err := restClient.WithUri("/api/user/two-factor").
-		WithParameter("userId", userId).
+		WithUriSegment(userId).
 		WithParameter("methodId", methodId).
 		WithParameter("code", code).
+		WithMethod(http.MethodDelete).
+		Do()
+	if restClient.ErrorRef == nil {
+		return &resp, nil, err
+	}
+	return &resp, &errors, err
+}
+
+// DisableTwoFactorWithRequest
+// Disable Two Factor authentication for a user using a JSON body rather than URL parameters.
+//   string userId The Id of the User for which you're disabling Two Factor authentication.
+//   TwoFactorDisableRequest request The request information that contains the code and methodId along with any event information.
+func (c *FusionAuthClient) DisableTwoFactorWithRequest(userId string, request TwoFactorDisableRequest) (*BaseHTTPResponse, *Errors, error) {
+	var resp BaseHTTPResponse
+	var errors Errors
+
+	restClient := c.Start(&resp, &errors)
+	err := restClient.WithUri("/api/user/two-factor").
+		WithUriSegment(userId).
+		WithJSONBody(request).
 		WithMethod(http.MethodDelete).
 		Do()
 	if restClient.ErrorRef == nil {

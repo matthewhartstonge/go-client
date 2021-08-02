@@ -4724,6 +4724,15 @@ type TwitterIdentityProvider struct {
 }
 
 /**
+ * @author Brian Pontarelli
+ */
+type TwoFactorDisableRequest struct {
+	BaseEventRequest
+	Code     string `json:"code,omitempty"`
+	MethodId string `json:"methodId,omitempty"`
+}
+
+/**
  * @author Daniel DeGroff
  */
 type TwoFactorEnableDisableSendRequest struct {
