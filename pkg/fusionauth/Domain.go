@@ -3870,6 +3870,15 @@ type RegistrationConfiguration struct {
 }
 
 /**
+ * Registration delete API request object.
+ *
+ * @author Brian Pontarelli
+ */
+type RegistrationDeleteRequest struct {
+	BaseEventRequest
+}
+
+/**
  * Response for the registration report.
  *
  * @author Brian Pontarelli

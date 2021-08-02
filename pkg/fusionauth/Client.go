@@ -1373,6 +1373,28 @@ func (c *FusionAuthClient) DeleteRegistration(userId string, applicationId strin
 	return &resp, &errors, err
 }
 
+// DeleteRegistrationWithRequest
+// Deletes the user registration for the given user and application along with the given JSON body that contains the event information.
+//   string userId The Id of the user whose registration is being deleted.
+//   string applicationId The Id of the application to remove the registration for.
+//   RegistrationDeleteRequest request The request body that contains the event information.
+func (c *FusionAuthClient) DeleteRegistrationWithRequest(userId string, applicationId string, request RegistrationDeleteRequest) (*BaseHTTPResponse, *Errors, error) {
+	var resp BaseHTTPResponse
+	var errors Errors
+
+	restClient := c.Start(&resp, &errors)
+	err := restClient.WithUri("/api/user/registration").
+		WithUriSegment(userId).
+		WithUriSegment(applicationId).
+		WithJSONBody(request).
+		WithMethod(http.MethodDelete).
+		Do()
+	if restClient.ErrorRef == nil {
+		return &resp, nil, err
+	}
+	return &resp, &errors, err
+}
+
 // DeleteTenant
 // Deletes the tenant based on the given Id on the URL. This permanently deletes all information, metrics, reports and data associated
 // with the tenant and everything under the tenant (applications, users, etc).
