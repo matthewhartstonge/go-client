@@ -4782,14 +4782,14 @@ func (b *TwoFactorRecoveryCodeResponse) SetStatus(status int) {
  * @author Brian Pontarelli
  */
 type TwoFactorRequest struct {
-	AuthenticatorId     string    `json:"authenticatorId,omitempty"`
-	Code                string    `json:"code,omitempty"`
-	Email               string    `json:"email,omitempty"`
-	EventInfo           EventInfo `json:"eventInfo,omitempty"`
-	Method              string    `json:"method,omitempty"`
-	MobilePhone         string    `json:"mobilePhone,omitempty"`
-	Secret              string    `json:"secret,omitempty"`
-	SecretBase32Encoded string    `json:"secretBase32Encoded,omitempty"`
+	BaseEventRequest
+	AuthenticatorId     string `json:"authenticatorId,omitempty"`
+	Code                string `json:"code,omitempty"`
+	Email               string `json:"email,omitempty"`
+	Method              string `json:"method,omitempty"`
+	MobilePhone         string `json:"mobilePhone,omitempty"`
+	Secret              string `json:"secret,omitempty"`
+	SecretBase32Encoded string `json:"secretBase32Encoded,omitempty"`
 }
 
 /**
