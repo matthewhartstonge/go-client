@@ -2412,8 +2412,8 @@ type IPAccessControlListSearchRequest struct {
  */
 type IPAccessControlListSearchResponse struct {
 	BaseHTTPResponse
-	Acls  []IPAccessControlList `json:"acls,omitempty"`
-	Total int64                 `json:"total,omitempty"`
+	IpAccessControlLists []IPAccessControlList `json:"ipAccessControlLists,omitempty"`
+	Total                int64                 `json:"total,omitempty"`
 }
 
 func (b *IPAccessControlListSearchResponse) SetStatus(status int) {
@@ -4375,37 +4375,38 @@ type Templates struct {
  * @author Daniel DeGroff
  */
 type Tenant struct {
-	CaptchaConfiguration              TenantCaptchaConfiguration        `json:"captchaConfiguration,omitempty"`
-	Configured                        bool                              `json:"configured"`
-	ConnectorPolicies                 []ConnectorPolicy                 `json:"connectorPolicies,omitempty"`
-	Data                              map[string]interface{}            `json:"data,omitempty"`
-	EmailConfiguration                EmailConfiguration                `json:"emailConfiguration,omitempty"`
-	EventConfiguration                EventConfiguration                `json:"eventConfiguration,omitempty"`
-	ExternalIdentifierConfiguration   ExternalIdentifierConfiguration   `json:"externalIdentifierConfiguration,omitempty"`
-	FailedAuthenticationConfiguration FailedAuthenticationConfiguration `json:"failedAuthenticationConfiguration,omitempty"`
-	FamilyConfiguration               FamilyConfiguration               `json:"familyConfiguration,omitempty"`
-	FormConfiguration                 TenantFormConfiguration           `json:"formConfiguration,omitempty"`
-	HttpSessionMaxInactiveInterval    int                               `json:"httpSessionMaxInactiveInterval,omitempty"`
-	Id                                string                            `json:"id,omitempty"`
-	InsertInstant                     int64                             `json:"insertInstant,omitempty"`
-	Issuer                            string                            `json:"issuer,omitempty"`
-	JwtConfiguration                  JWTConfiguration                  `json:"jwtConfiguration,omitempty"`
-	LastUpdateInstant                 int64                             `json:"lastUpdateInstant,omitempty"`
-	LoginConfiguration                TenantLoginConfiguration          `json:"loginConfiguration,omitempty"`
-	LogoutURL                         string                            `json:"logoutURL,omitempty"`
-	MaximumPasswordAge                MaximumPasswordAge                `json:"maximumPasswordAge,omitempty"`
-	MinimumPasswordAge                MinimumPasswordAge                `json:"minimumPasswordAge,omitempty"`
-	MultiFactorConfiguration          TenantMultiFactorConfiguration    `json:"multiFactorConfiguration,omitempty"`
-	Name                              string                            `json:"name,omitempty"`
-	OauthConfiguration                TenantOAuth2Configuration         `json:"oauthConfiguration,omitempty"`
-	PasswordEncryptionConfiguration   PasswordEncryptionConfiguration   `json:"passwordEncryptionConfiguration,omitempty"`
-	PasswordValidationRules           PasswordValidationRules           `json:"passwordValidationRules,omitempty"`
-	RateLimitConfiguration            TenantRateLimitConfiguration      `json:"rateLimitConfiguration,omitempty"`
-	RegistrationConfiguration         TenantRegistrationConfiguration   `json:"registrationConfiguration,omitempty"`
-	State                             ObjectState                       `json:"state,omitempty"`
-	ThemeId                           string                            `json:"themeId,omitempty"`
-	UserDeletePolicy                  TenantUserDeletePolicy            `json:"userDeletePolicy,omitempty"`
-	UsernameConfiguration             TenantUsernameConfiguration       `json:"usernameConfiguration,omitempty"`
+	CaptchaConfiguration              TenantCaptchaConfiguration             `json:"captchaConfiguration,omitempty"`
+	Configured                        bool                                   `json:"configured"`
+	ConnectorPolicies                 []ConnectorPolicy                      `json:"connectorPolicies,omitempty"`
+	Data                              map[string]interface{}                 `json:"data,omitempty"`
+	EmailConfiguration                EmailConfiguration                     `json:"emailConfiguration,omitempty"`
+	EventConfiguration                EventConfiguration                     `json:"eventConfiguration,omitempty"`
+	ExternalIdentifierConfiguration   ExternalIdentifierConfiguration        `json:"externalIdentifierConfiguration,omitempty"`
+	FailedAuthenticationConfiguration FailedAuthenticationConfiguration      `json:"failedAuthenticationConfiguration,omitempty"`
+	FamilyConfiguration               FamilyConfiguration                    `json:"familyConfiguration,omitempty"`
+	FormConfiguration                 TenantFormConfiguration                `json:"formConfiguration,omitempty"`
+	HttpSessionMaxInactiveInterval    int                                    `json:"httpSessionMaxInactiveInterval,omitempty"`
+	Id                                string                                 `json:"id,omitempty"`
+	InsertInstant                     int64                                  `json:"insertInstant,omitempty"`
+	IpAccessControlListConfiguration  TenantIPAccessControlListConfiguration `json:"ipAccessControlListConfiguration,omitempty"`
+	Issuer                            string                                 `json:"issuer,omitempty"`
+	JwtConfiguration                  JWTConfiguration                       `json:"jwtConfiguration,omitempty"`
+	LastUpdateInstant                 int64                                  `json:"lastUpdateInstant,omitempty"`
+	LoginConfiguration                TenantLoginConfiguration               `json:"loginConfiguration,omitempty"`
+	LogoutURL                         string                                 `json:"logoutURL,omitempty"`
+	MaximumPasswordAge                MaximumPasswordAge                     `json:"maximumPasswordAge,omitempty"`
+	MinimumPasswordAge                MinimumPasswordAge                     `json:"minimumPasswordAge,omitempty"`
+	MultiFactorConfiguration          TenantMultiFactorConfiguration         `json:"multiFactorConfiguration,omitempty"`
+	Name                              string                                 `json:"name,omitempty"`
+	OauthConfiguration                TenantOAuth2Configuration              `json:"oauthConfiguration,omitempty"`
+	PasswordEncryptionConfiguration   PasswordEncryptionConfiguration        `json:"passwordEncryptionConfiguration,omitempty"`
+	PasswordValidationRules           PasswordValidationRules                `json:"passwordValidationRules,omitempty"`
+	RateLimitConfiguration            TenantRateLimitConfiguration           `json:"rateLimitConfiguration,omitempty"`
+	RegistrationConfiguration         TenantRegistrationConfiguration        `json:"registrationConfiguration,omitempty"`
+	State                             ObjectState                            `json:"state,omitempty"`
+	ThemeId                           string                                 `json:"themeId,omitempty"`
+	UserDeletePolicy                  TenantUserDeletePolicy                 `json:"userDeletePolicy,omitempty"`
+	UsernameConfiguration             TenantUsernameConfiguration            `json:"usernameConfiguration,omitempty"`
 }
 
 /**
@@ -4440,6 +4441,14 @@ type TenantDeleteRequest struct {
  */
 type TenantFormConfiguration struct {
 	AdminUserFormId string `json:"adminUserFormId,omitempty"`
+}
+
+/**
+ * @author Brett Guy
+ */
+type TenantIPAccessControlListConfiguration struct {
+	Enableable
+	IpAccessControlListId string `json:"ipAccessControlListId,omitempty"`
 }
 
 /**
@@ -4986,6 +4995,20 @@ const (
 	UserActionPhase_Cancel UserActionPhase = "cancel"
 	UserActionPhase_End    UserActionPhase = "end"
 )
+
+/**
+ * Models action reasons.
+ *
+ * @author Brian Pontarelli
+ */
+type UserActionReason struct {
+	Code              string            `json:"code,omitempty"`
+	Id                string            `json:"id,omitempty"`
+	InsertInstant     int64             `json:"insertInstant,omitempty"`
+	LastUpdateInstant int64             `json:"lastUpdateInstant,omitempty"`
+	LocalizedTexts    map[string]string `json:"localizedTexts,omitempty"`
+	Text              string            `json:"text,omitempty"`
+}
 
 /**
  * User Action Reason API request object.
