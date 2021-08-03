@@ -525,9 +525,9 @@ type BaseIdentityProviderApplicationConfiguration struct {
 type BaseLoginRequest struct {
 	BaseEventRequest
 	ApplicationId string   `json:"applicationId,omitempty"`
-	DeviceTrustId string   `json:"deviceTrustId,omitempty"`
 	IpAddress     string   `json:"ipAddress,omitempty"`
 	MetaData      MetaData `json:"metaData,omitempty"`
+	NewDevice     bool     `json:"newDevice"`
 	NoJWT         bool     `json:"noJWT"`
 }
 
