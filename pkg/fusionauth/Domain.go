@@ -226,7 +226,7 @@ type ApplicationEmailConfiguration struct {
 	EmailVerifiedEmailTemplateId        string `json:"emailVerifiedEmailTemplateId,omitempty"`
 	ForgotPasswordEmailTemplateId       string `json:"forgotPasswordEmailTemplateId,omitempty"`
 	LoginNewDeviceEmailTemplateId       string `json:"loginNewDeviceEmailTemplateId,omitempty"`
-	LoginSuspectEmailTemplateId         string `json:"loginSuspectEmailTemplateId,omitempty"`
+	LoginSuspiciousEmailTemplateId      string `json:"loginSuspiciousEmailTemplateId,omitempty"`
 	PasswordlessEmailTemplateId         string `json:"passwordlessEmailTemplateId,omitempty"`
 	PasswordResetSuccessEmailTemplateId string `json:"passwordResetSuccessEmailTemplateId,omitempty"`
 	SetPasswordEmailTemplateId          string `json:"setPasswordEmailTemplateId,omitempty"`
@@ -958,7 +958,7 @@ type EmailConfiguration struct {
 	LoginIdInUseOnCreateEmailTemplateId  string                 `json:"loginIdInUseOnCreateEmailTemplateId,omitempty"`
 	LoginIdInUseOnUpdateEmailTemplateId  string                 `json:"loginIdInUseOnUpdateEmailTemplateId,omitempty"`
 	LoginNewDeviceEmailTemplateId        string                 `json:"loginNewDeviceEmailTemplateId,omitempty"`
-	LoginSuspectEmailTemplateId          string                 `json:"loginSuspectEmailTemplateId,omitempty"`
+	LoginSuspiciousEmailTemplateId       string                 `json:"loginSuspiciousEmailTemplateId,omitempty"`
 	Password                             string                 `json:"password,omitempty"`
 	PasswordlessEmailTemplateId          string                 `json:"passwordlessEmailTemplateId,omitempty"`
 	PasswordResetSuccessEmailTemplateId  string                 `json:"passwordResetSuccessEmailTemplateId,omitempty"`
@@ -1524,7 +1524,7 @@ const (
 	EventType_UserLoginFailed                EventType = "user.login.failed"
 	EventType_UserLoginNewDevice             EventType = "user.login.new-device"
 	EventType_UserLoginSuccess               EventType = "user.login.success"
-	EventType_UserLoginSuspect               EventType = "user.login.suspect"
+	EventType_UserLoginSuspicious            EventType = "user.login.suspicious"
 	EventType_UserPasswordBreach             EventType = "user.password.breach"
 	EventType_UserPasswordResetSend          EventType = "user.password.reset.send"
 	EventType_UserPasswordResetStart         EventType = "user.password.reset.start"
@@ -4333,7 +4333,7 @@ type SystemLogsExportRequest struct {
  * @author Brett Pontarelli
  */
 type SystemSSOConfiguration struct {
-	SsoDeviceTrustTimeToLiveInSeconds int `json:"ssoDeviceTrustTimeToLiveInSeconds,omitempty"`
+	DeviceTrustTimeToLiveInSeconds int `json:"deviceTrustTimeToLiveInSeconds,omitempty"`
 }
 
 type Templates struct {
@@ -5338,11 +5338,11 @@ type UserLoginSuccessEvent struct {
 }
 
 /**
- * Models the User Login event that is suspect.
+ * Models the User Login event that is suspicious.
  *
  * @author Daniel DeGroff
  */
-type UserLoginSuspectEvent struct {
+type UserLoginSuspiciousEvent struct {
 	UserLoginSuccessEvent
 }
 
