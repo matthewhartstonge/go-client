@@ -525,9 +525,9 @@ type BaseIdentityProviderApplicationConfiguration struct {
 type BaseLoginRequest struct {
 	BaseEventRequest
 	ApplicationId string   `json:"applicationId,omitempty"`
-	DeviceTrustId string   `json:"deviceTrustId,omitempty"`
 	IpAddress     string   `json:"ipAddress,omitempty"`
 	MetaData      MetaData `json:"metaData,omitempty"`
+	NewDevice     bool     `json:"newDevice"`
 	NoJWT         bool     `json:"noJWT"`
 }
 
@@ -2973,7 +2973,6 @@ type LoginRequest struct {
 type LoginResponse struct {
 	BaseHTTPResponse
 	Actions                    []LoginPreventedResponse `json:"actions,omitempty"`
-	AuthenticationType         string                   `json:"authenticationType,omitempty"`
 	ChangePasswordId           string                   `json:"changePasswordId,omitempty"`
 	ChangePasswordReason       ChangePasswordReason     `json:"changePasswordReason,omitempty"`
 	EmailVerificationId        string                   `json:"emailVerificationId,omitempty"`
