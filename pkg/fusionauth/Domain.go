@@ -4333,7 +4333,7 @@ type SystemLogsExportRequest struct {
  * @author Brett Pontarelli
  */
 type SystemSSOConfiguration struct {
-	SsoDeviceTrustTimeToLiveInSeconds int `json:"ssoDeviceTrustTimeToLiveInSeconds,omitempty"`
+	DeviceTrustTimeToLiveInSeconds int `json:"deviceTrustTimeToLiveInSeconds,omitempty"`
 }
 
 type Templates struct {
