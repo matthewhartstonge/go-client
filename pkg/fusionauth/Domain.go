@@ -2705,11 +2705,7 @@ type KickstartSuccessEvent struct {
 	InstanceId string `json:"instanceId,omitempty"`
 }
 
-/**
- * A JavaScript lambda function that is executed during certain events inside FusionAuth.
- *
- * @author Brian Pontarelli
- */
+// TODO : Future : This shouldn't be enableable
 type Lambda struct {
 	Enableable
 	Body              string     `json:"body,omitempty"`
