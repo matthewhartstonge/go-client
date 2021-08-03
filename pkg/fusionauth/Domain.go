@@ -2973,6 +2973,7 @@ type LoginRequest struct {
 type LoginResponse struct {
 	BaseHTTPResponse
 	Actions                    []LoginPreventedResponse `json:"actions,omitempty"`
+	AuthenticationType         string                   `json:"authenticationType,omitempty"`
 	ChangePasswordId           string                   `json:"changePasswordId,omitempty"`
 	ChangePasswordReason       ChangePasswordReason     `json:"changePasswordReason,omitempty"`
 	EmailVerificationId        string                   `json:"emailVerificationId,omitempty"`
