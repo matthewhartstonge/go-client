@@ -2840,12 +2840,13 @@ type LinkedInIdentityProvider struct {
  * @author Brian Pontarelli
  */
 type Location struct {
-	City      string `json:"city,omitempty"`
-	Country   string `json:"country,omitempty"`
-	Latitude  double `json:"latitude,omitempty"`
-	Longitude double `json:"longitude,omitempty"`
-	Region    string `json:"region,omitempty"`
-	Zipcode   string `json:"zipcode,omitempty"`
+	City          string `json:"city,omitempty"`
+	Country       string `json:"country,omitempty"`
+	DisplayString string `json:"displayString,omitempty"`
+	Latitude      double `json:"latitude,omitempty"`
+	Longitude     double `json:"longitude,omitempty"`
+	Region        string `json:"region,omitempty"`
+	Zipcode       string `json:"zipcode,omitempty"`
 }
 
 /**
