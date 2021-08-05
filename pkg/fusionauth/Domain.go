@@ -422,10 +422,8 @@ func (b *AuditLogSearchResponse) SetStatus(status int) {
 type AuthenticationThreats string
 
 const (
+	AuthenticationThreats_BlockedIPAddress AuthenticationThreats = "BlockedIPAddress"
 	AuthenticationThreats_ImpossibleTravel AuthenticationThreats = "ImpossibleTravel"
-	AuthenticationThreats_UnusualTravel    AuthenticationThreats = "UnusualTravel"
-	AuthenticationThreats_BadCaptcha       AuthenticationThreats = "BadCaptcha"
-	AuthenticationThreats_NewDeviceLogin   AuthenticationThreats = "NewDeviceLogin"
 )
 
 type AuthenticationTokenConfiguration struct {
