@@ -192,33 +192,41 @@ type AppleIdentityProvider struct {
  * @author Seth Musselman
  */
 type Application struct {
-	Active                           bool                                `json:"active"`
-	AuthenticationTokenConfiguration AuthenticationTokenConfiguration    `json:"authenticationTokenConfiguration,omitempty"`
-	CleanSpeakConfiguration          CleanSpeakConfiguration             `json:"cleanSpeakConfiguration,omitempty"`
-	Data                             map[string]interface{}              `json:"data,omitempty"`
-	EmailConfiguration               ApplicationEmailConfiguration       `json:"emailConfiguration,omitempty"`
-	FormConfiguration                ApplicationFormConfiguration        `json:"formConfiguration,omitempty"`
-	Id                               string                              `json:"id,omitempty"`
-	InsertInstant                    int64                               `json:"insertInstant,omitempty"`
-	JwtConfiguration                 JWTConfiguration                    `json:"jwtConfiguration,omitempty"`
-	LambdaConfiguration              LambdaConfiguration                 `json:"lambdaConfiguration,omitempty"`
-	LastUpdateInstant                int64                               `json:"lastUpdateInstant,omitempty"`
-	LoginConfiguration               LoginConfiguration                  `json:"loginConfiguration,omitempty"`
-	MultiFactorConfiguration         ApplicationMultiFactorConfiguration `json:"multiFactorConfiguration,omitempty"`
-	Name                             string                              `json:"name,omitempty"`
-	OauthConfiguration               OAuth2Configuration                 `json:"oauthConfiguration,omitempty"`
-	PasswordlessConfiguration        PasswordlessConfiguration           `json:"passwordlessConfiguration,omitempty"`
-	RegistrationConfiguration        RegistrationConfiguration           `json:"registrationConfiguration,omitempty"`
-	RegistrationDeletePolicy         ApplicationRegistrationDeletePolicy `json:"registrationDeletePolicy,omitempty"`
-	Roles                            []ApplicationRole                   `json:"roles,omitempty"`
-	Samlv2Configuration              SAMLv2Configuration                 `json:"samlv2Configuration,omitempty"`
-	State                            ObjectState                         `json:"state,omitempty"`
-	TenantId                         string                              `json:"tenantId,omitempty"`
-	ThemeId                          string                              `json:"themeId,omitempty"`
-	Unverified                       RegistrationUnverifiedOptions       `json:"unverified,omitempty"`
-	VerificationEmailTemplateId      string                              `json:"verificationEmailTemplateId,omitempty"`
-	VerificationStrategy             VerificationStrategy                `json:"verificationStrategy,omitempty"`
-	VerifyRegistration               bool                                `json:"verifyRegistration"`
+	AccessControlConfiguration       ApplicationAccessControlConfiguration `json:"accessControlConfiguration,omitempty"`
+	Active                           bool                                  `json:"active"`
+	AuthenticationTokenConfiguration AuthenticationTokenConfiguration      `json:"authenticationTokenConfiguration,omitempty"`
+	CleanSpeakConfiguration          CleanSpeakConfiguration               `json:"cleanSpeakConfiguration,omitempty"`
+	Data                             map[string]interface{}                `json:"data,omitempty"`
+	EmailConfiguration               ApplicationEmailConfiguration         `json:"emailConfiguration,omitempty"`
+	FormConfiguration                ApplicationFormConfiguration          `json:"formConfiguration,omitempty"`
+	Id                               string                                `json:"id,omitempty"`
+	InsertInstant                    int64                                 `json:"insertInstant,omitempty"`
+	JwtConfiguration                 JWTConfiguration                      `json:"jwtConfiguration,omitempty"`
+	LambdaConfiguration              LambdaConfiguration                   `json:"lambdaConfiguration,omitempty"`
+	LastUpdateInstant                int64                                 `json:"lastUpdateInstant,omitempty"`
+	LoginConfiguration               LoginConfiguration                    `json:"loginConfiguration,omitempty"`
+	MultiFactorConfiguration         ApplicationMultiFactorConfiguration   `json:"multiFactorConfiguration,omitempty"`
+	Name                             string                                `json:"name,omitempty"`
+	OauthConfiguration               OAuth2Configuration                   `json:"oauthConfiguration,omitempty"`
+	PasswordlessConfiguration        PasswordlessConfiguration             `json:"passwordlessConfiguration,omitempty"`
+	RegistrationConfiguration        RegistrationConfiguration             `json:"registrationConfiguration,omitempty"`
+	RegistrationDeletePolicy         ApplicationRegistrationDeletePolicy   `json:"registrationDeletePolicy,omitempty"`
+	Roles                            []ApplicationRole                     `json:"roles,omitempty"`
+	Samlv2Configuration              SAMLv2Configuration                   `json:"samlv2Configuration,omitempty"`
+	State                            ObjectState                           `json:"state,omitempty"`
+	TenantId                         string                                `json:"tenantId,omitempty"`
+	ThemeId                          string                                `json:"themeId,omitempty"`
+	Unverified                       RegistrationUnverifiedOptions         `json:"unverified,omitempty"`
+	VerificationEmailTemplateId      string                                `json:"verificationEmailTemplateId,omitempty"`
+	VerificationStrategy             VerificationStrategy                  `json:"verificationStrategy,omitempty"`
+	VerifyRegistration               bool                                  `json:"verifyRegistration"`
+}
+
+/**
+ * @author Daniel DeGroff
+ */
+type ApplicationAccessControlConfiguration struct {
+	UiIPAccessControlListId string `json:"uiIPAccessControlListId,omitempty"`
 }
 
 type ApplicationEmailConfiguration struct {
@@ -422,7 +430,6 @@ func (b *AuditLogSearchResponse) SetStatus(status int) {
 type AuthenticationThreats string
 
 const (
-	AuthenticationThreats_BlockedIPAddress AuthenticationThreats = "BlockedIPAddress"
 	AuthenticationThreats_ImpossibleTravel AuthenticationThreats = "ImpossibleTravel"
 )
 
@@ -4373,44 +4380,45 @@ type Templates struct {
 	RegistrationVerificationRequired          string `json:"registrationVerificationRequired,omitempty"`
 	RegistrationVerify                        string `json:"registrationVerify,omitempty"`
 	Samlv2Logout                              string `json:"samlv2Logout,omitempty"`
+	Unauthorized                              string `json:"unauthorized,omitempty"`
 }
 
 /**
  * @author Daniel DeGroff
  */
 type Tenant struct {
-	AccessControlListConfiguration    TenantAccessControlListConfiguration `json:"accessControlListConfiguration,omitempty"`
-	CaptchaConfiguration              TenantCaptchaConfiguration           `json:"captchaConfiguration,omitempty"`
-	Configured                        bool                                 `json:"configured"`
-	ConnectorPolicies                 []ConnectorPolicy                    `json:"connectorPolicies,omitempty"`
-	Data                              map[string]interface{}               `json:"data,omitempty"`
-	EmailConfiguration                EmailConfiguration                   `json:"emailConfiguration,omitempty"`
-	EventConfiguration                EventConfiguration                   `json:"eventConfiguration,omitempty"`
-	ExternalIdentifierConfiguration   ExternalIdentifierConfiguration      `json:"externalIdentifierConfiguration,omitempty"`
-	FailedAuthenticationConfiguration FailedAuthenticationConfiguration    `json:"failedAuthenticationConfiguration,omitempty"`
-	FamilyConfiguration               FamilyConfiguration                  `json:"familyConfiguration,omitempty"`
-	FormConfiguration                 TenantFormConfiguration              `json:"formConfiguration,omitempty"`
-	HttpSessionMaxInactiveInterval    int                                  `json:"httpSessionMaxInactiveInterval,omitempty"`
-	Id                                string                               `json:"id,omitempty"`
-	InsertInstant                     int64                                `json:"insertInstant,omitempty"`
-	Issuer                            string                               `json:"issuer,omitempty"`
-	JwtConfiguration                  JWTConfiguration                     `json:"jwtConfiguration,omitempty"`
-	LastUpdateInstant                 int64                                `json:"lastUpdateInstant,omitempty"`
-	LoginConfiguration                TenantLoginConfiguration             `json:"loginConfiguration,omitempty"`
-	LogoutURL                         string                               `json:"logoutURL,omitempty"`
-	MaximumPasswordAge                MaximumPasswordAge                   `json:"maximumPasswordAge,omitempty"`
-	MinimumPasswordAge                MinimumPasswordAge                   `json:"minimumPasswordAge,omitempty"`
-	MultiFactorConfiguration          TenantMultiFactorConfiguration       `json:"multiFactorConfiguration,omitempty"`
-	Name                              string                               `json:"name,omitempty"`
-	OauthConfiguration                TenantOAuth2Configuration            `json:"oauthConfiguration,omitempty"`
-	PasswordEncryptionConfiguration   PasswordEncryptionConfiguration      `json:"passwordEncryptionConfiguration,omitempty"`
-	PasswordValidationRules           PasswordValidationRules              `json:"passwordValidationRules,omitempty"`
-	RateLimitConfiguration            TenantRateLimitConfiguration         `json:"rateLimitConfiguration,omitempty"`
-	RegistrationConfiguration         TenantRegistrationConfiguration      `json:"registrationConfiguration,omitempty"`
-	State                             ObjectState                          `json:"state,omitempty"`
-	ThemeId                           string                               `json:"themeId,omitempty"`
-	UserDeletePolicy                  TenantUserDeletePolicy               `json:"userDeletePolicy,omitempty"`
-	UsernameConfiguration             TenantUsernameConfiguration          `json:"usernameConfiguration,omitempty"`
+	AccessControlConfiguration        TenantAccessControlConfiguration  `json:"accessControlConfiguration,omitempty"`
+	CaptchaConfiguration              TenantCaptchaConfiguration        `json:"captchaConfiguration,omitempty"`
+	Configured                        bool                              `json:"configured"`
+	ConnectorPolicies                 []ConnectorPolicy                 `json:"connectorPolicies,omitempty"`
+	Data                              map[string]interface{}            `json:"data,omitempty"`
+	EmailConfiguration                EmailConfiguration                `json:"emailConfiguration,omitempty"`
+	EventConfiguration                EventConfiguration                `json:"eventConfiguration,omitempty"`
+	ExternalIdentifierConfiguration   ExternalIdentifierConfiguration   `json:"externalIdentifierConfiguration,omitempty"`
+	FailedAuthenticationConfiguration FailedAuthenticationConfiguration `json:"failedAuthenticationConfiguration,omitempty"`
+	FamilyConfiguration               FamilyConfiguration               `json:"familyConfiguration,omitempty"`
+	FormConfiguration                 TenantFormConfiguration           `json:"formConfiguration,omitempty"`
+	HttpSessionMaxInactiveInterval    int                               `json:"httpSessionMaxInactiveInterval,omitempty"`
+	Id                                string                            `json:"id,omitempty"`
+	InsertInstant                     int64                             `json:"insertInstant,omitempty"`
+	Issuer                            string                            `json:"issuer,omitempty"`
+	JwtConfiguration                  JWTConfiguration                  `json:"jwtConfiguration,omitempty"`
+	LastUpdateInstant                 int64                             `json:"lastUpdateInstant,omitempty"`
+	LoginConfiguration                TenantLoginConfiguration          `json:"loginConfiguration,omitempty"`
+	LogoutURL                         string                            `json:"logoutURL,omitempty"`
+	MaximumPasswordAge                MaximumPasswordAge                `json:"maximumPasswordAge,omitempty"`
+	MinimumPasswordAge                MinimumPasswordAge                `json:"minimumPasswordAge,omitempty"`
+	MultiFactorConfiguration          TenantMultiFactorConfiguration    `json:"multiFactorConfiguration,omitempty"`
+	Name                              string                            `json:"name,omitempty"`
+	OauthConfiguration                TenantOAuth2Configuration         `json:"oauthConfiguration,omitempty"`
+	PasswordEncryptionConfiguration   PasswordEncryptionConfiguration   `json:"passwordEncryptionConfiguration,omitempty"`
+	PasswordValidationRules           PasswordValidationRules           `json:"passwordValidationRules,omitempty"`
+	RateLimitConfiguration            TenantRateLimitConfiguration      `json:"rateLimitConfiguration,omitempty"`
+	RegistrationConfiguration         TenantRegistrationConfiguration   `json:"registrationConfiguration,omitempty"`
+	State                             ObjectState                       `json:"state,omitempty"`
+	ThemeId                           string                            `json:"themeId,omitempty"`
+	UserDeletePolicy                  TenantUserDeletePolicy            `json:"userDeletePolicy,omitempty"`
+	UsernameConfiguration             TenantUsernameConfiguration       `json:"usernameConfiguration,omitempty"`
 }
 
 /**
@@ -4422,8 +4430,8 @@ type Tenantable struct {
 /**
  * @author Brett Guy
  */
-type TenantAccessControlListConfiguration struct {
-	IpAccessControlListId string `json:"ipAccessControlListId,omitempty"`
+type TenantAccessControlConfiguration struct {
+	UiIPAccessControlListId string `json:"uiIPAccessControlListId,omitempty"`
 }
 
 /**
