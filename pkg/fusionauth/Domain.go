@@ -657,6 +657,7 @@ const (
  */
 type ChangePasswordRequest struct {
 	BaseEventRequest
+	ApplicationId   string `json:"applicationId,omitempty"`
 	CurrentPassword string `json:"currentPassword,omitempty"`
 	LoginId         string `json:"loginId,omitempty"`
 	Password        string `json:"password,omitempty"`
