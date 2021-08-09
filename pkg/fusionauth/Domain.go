@@ -230,6 +230,7 @@ type ApplicationAccessControlConfiguration struct {
 }
 
 type ApplicationEmailConfiguration struct {
+	EmailUpdateEmailTemplateId          string `json:"emailUpdateEmailTemplateId,omitempty"`
 	EmailVerificationEmailTemplateId    string `json:"emailVerificationEmailTemplateId,omitempty"`
 	EmailVerifiedEmailTemplateId        string `json:"emailVerifiedEmailTemplateId,omitempty"`
 	ForgotPasswordEmailTemplateId       string `json:"forgotPasswordEmailTemplateId,omitempty"`
@@ -5541,10 +5542,11 @@ type UserRegistrationVerifiedEvent struct {
  */
 type UserRequest struct {
 	BaseEventRequest
-	DisableDomainBlock   bool `json:"disableDomainBlock"`
-	SendSetPasswordEmail bool `json:"sendSetPasswordEmail"`
-	SkipVerification     bool `json:"skipVerification"`
-	User                 User `json:"user,omitempty"`
+	ApplicationId        string `json:"applicationId,omitempty"`
+	DisableDomainBlock   bool   `json:"disableDomainBlock"`
+	SendSetPasswordEmail bool   `json:"sendSetPasswordEmail"`
+	SkipVerification     bool   `json:"skipVerification"`
+	User                 User   `json:"user,omitempty"`
 }
 
 /**
